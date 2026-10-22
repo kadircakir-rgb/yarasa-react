@@ -1,0 +1,423 @@
+/* Bootstrap */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import 'swiper/css/effect-fade';
+
+/* Hero Swiper */
+.hero-swiper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 500px;
+}
+
+.hero-swiper .swiper-slide {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-swiper .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.hero-swiper .carousel-container {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-prev,
+.hero-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(0,0,0,0.3) !important;
+  border: none !important;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.hero-prev:hover,
+.hero-next:hover {
+  background: rgba(0,0,0,0.6) !important;
+}
+
+.hero-prev { left: 15px; }
+.hero-next { right: 15px; }
+
+.hero-pagination {
+  position: absolute;
+  bottom: 20px;
+  z-index: 10;
+  text-align: center;
+  width: 100%;
+}
+
+/* Buton alt çizgisi kaldır */
+.btn-cta,
+.btn-cta:hover,
+.btn-cta:focus {
+  text-decoration: none !important;
+}
+
+/* Slider görsel belirginliği — arka plandaki fotoğraf çok daha canlı, parlak ve net */
+.hero-swiper .swiper-slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Görselin net ve belirgin görünmesini sağlayan hafif degrade */
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0.12) 40%, rgba(0, 0, 0, 0.55) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-swiper .carousel-container {
+  text-shadow: 0 2px 18px rgba(0,0,0,1), 0 4px 32px rgba(0,0,0,0.85);
+}
+
+/* Ana sayfa hero — fixed header yüzünden padding'i sıfırla */
+.index-page .hero,
+#hero {
+  margin-top: 0;
+}
+
+/* Hero swiper içeriği navbar altında başlasın */
+.hero-swiper .swiper-slide {
+  padding-top: 0;
+}
+
+.hero-swiper .carousel-container {
+  padding-top: 80px;
+}
+
+/* Kart hover efekti — öne çıkma + kırmızı glow */
+.hover-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.hover-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(230, 27, 35, 0.25), 0 4px 16px rgba(0,0,0,0.15) !important;
+}
+
+/* Service item hover efekti */
+.service-item {
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.service-item:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(230, 27, 35, 0.25), 0 4px 16px rgba(0,0,0,0.1) !important;
+  z-index: 1;
+  position: relative;
+}
+
+/* Services-2 başlık rengi */
+.services-2 .section-title h2 {
+  color: #e61b23 !important;
+}
+
+/* Service item title alt çizgi kaldır */
+.services-2 .service-item-contents a,
+.services-2 .service-item-title {
+  text-decoration: none !important;
+}
+
+/* Breadcrumb — Ana Sayfa kırmızı, mevcut sayfa beyaz */
+.page-title .breadcrumbs ol li a {
+  color: #e61b23 !important;
+  text-decoration: none !important;
+}
+
+.page-title .breadcrumbs ol li.current {
+  color: #ffffff !important;
+}
+
+.page-title .breadcrumbs ol li+li::before {
+  color: rgba(255,255,255,0.6) !important;
+}
+
+/* Slider yazıları tam ortalı */
+.hero-swiper .carousel-container,
+.hero .carousel-container {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  padding: 80px 40px 40px 40px !important;
+  text-align: center !important;
+  align-items: center !important;
+  justify-content: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* ── GLOBAL PROFESSIONAL UPGRADES ── */
+
+/* Section title refinement */
+.section-title h2 {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.5px;
+}
+.section-title p {
+  color: #888 !important;
+  font-size: 15px !important;
+}
+
+/* Smooth page transitions */
+.main section {
+  transition: opacity 0.3s ease;
+}
+
+/* Better form controls */
+.form-control:focus {
+  border-color: #e61b23 !important;
+  box-shadow: 0 0 0 3px rgba(230,27,35,0.1) !important;
+}
+
+/* Refined hover card */
+.hover-card:hover {
+  transform: translateY(-6px) scale(1.01) !important;
+  box-shadow: 0 16px 48px rgba(230,27,35,0.18), 0 4px 16px rgba(0,0,0,0.08) !important;
+}
+
+/* Service items */
+.service-item {
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+.service-item:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 12px 36px rgba(230,27,35,0.15) !important;
+  z-index: 2;
+  position: relative;
+}
+
+/* Testimonial cards */
+.testimonial {
+  border-radius: 12px !important;
+  padding: 24px !important;
+  background: #fff !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Post items */
+.post-item {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
+}
+
+/* Navbar refinement */
+.header {
+  backdrop-filter: blur(10px) !important;
+  background: rgba(255,255,255,0.97) !important;
+}
+
+/* Page title overlay */
+.page-title::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 100%);
+  z-index: 1;
+}
+.page-title .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Btn-cta refinement */
+.btn-cta {
+  box-shadow: 0 4px 16px rgba(230,27,35,0.3) !important;
+  transition: all 0.3s ease !important;
+}
+.btn-cta:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(230,27,35,0.4) !important;
+}
+
+/* Footer refinement */
+.footer {
+  background: #111 !important;
+}
+.footer .footer-links h4 {
+  color: #e61b23 !important;
+  font-size: 14px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  margin-bottom: 16px !important;
+}
+.footer .footer-links ul li a {
+  color: #aaa !important;
+  font-size: 14px !important;
+  transition: color 0.2s !important;
+}
+.footer .footer-links ul li a:hover {
+  color: #e61b23 !important;
+}
+.footer .footer-contact p {
+  color: #aaa !important;
+  font-size: 14px !important;
+}
+.footer .sitename {
+  color: #fff !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+.footer .copyright {
+  border-top: 1px solid #222 !important;
+  padding: 20px 0 !important;
+  color: #666 !important;
+  font-size: 13px !important;
+}
+
+/* Stats section */
+#stats .p-4 {
+  border-left: 4px solid #e61b23 !important;
+}
+
+/* Table refinement */
+.table thead th {
+  font-size: 13px !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+}
+
+/* Scroll top button */
+.scroll-top {
+  background: #e61b23 !important;
+  box-shadow: 0 4px 16px rgba(230,27,35,0.4) !important;
+}
+
+/* Info items in contact */
+.info-item {
+  padding: 16px 0 !important;
+  border-bottom: 1px solid #f5e6e6 !important;
+  gap: 16px !important;
+}
+.info-item i {
+  color: #e61b23 !important;
+  font-size: 20px !important;
+}
+.info-item h4 {
+  font-size: 13px !important;
+  color: #888 !important;
+  margin-bottom: 2px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+.info-item p {
+  color: #1a1a1a !important;
+  font-size: 14px !important;
+  margin: 0 !important;
+}
+
+/* Mobil menü arka planı */
+.mobile-nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 996;
+  background: rgba(0, 0, 0, 0.45);
+  border: none;
+  cursor: pointer;
+}
+
+.mobile-nav-toggle {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+/* Footer yardımcı sınıflar */
+.footer-heading {
+  color: #e61b23 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  margin-bottom: 16px !important;
+}
+
+.footer-link {
+  color: #aaa !important;
+  font-size: 14px !important;
+  text-decoration: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: color 0.2s !important;
+}
+
+.footer-link:hover {
+  color: #e61b23 !important;
+}
+
+.footer-link-list li {
+  margin-bottom: 8px;
+}
+
+.footer-social-link {
+  width: 36px;
+  height: 36px;
+  background: #222;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.footer-social-link:hover {
+  background: #e61b23;
+  color: #fff;
+}
+
+.footer-contact-link {
+  color: #aaa !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  text-decoration: none !important;
+}
+
+.footer-contact-link:hover {
+  color: #e61b23 !important;
+}
+
+.team-avatar {
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+}
+
+/* Erişilebilirlik — klavye odağı */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #e61b23;
+  outline-offset: 2px;
+}
+
+.scroll-top {
+  border: none;
+  cursor: pointer;
+}
