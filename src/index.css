@@ -328,12 +328,29 @@
   margin: 0 !important;
 }
 
-/* Mobil menü arka planı */
+/* ── MOBİL MENÜ VE ÇEKMECE TASARIMI ── */
+@keyframes slideInDrawer {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 .mobile-nav-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 996;
-  background: rgba(0, 0, 0, 0.45);
+  z-index: 998;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
   border: none;
   cursor: pointer;
 }
@@ -341,10 +358,89 @@
 .mobile-nav-toggle {
   background: none;
   border: none;
-  font-size: 28px;
+  font-size: 26px;
   color: #1a1a1a;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
 }
+
+@media (max-width: 1199px) {
+  body.mobile-nav-active {
+    overflow: hidden !important;
+  }
+
+  body.mobile-nav-active .navmenu,
+  .navmenu.mobile-nav-active {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 999 !important;
+    background: transparent !important;
+    pointer-events: none;
+  }
+
+  body.mobile-nav-active .navmenu ul,
+  .navmenu.mobile-nav-active ul {
+    display: flex !important;
+    flex-direction: column !important;
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: min(320px, 86vw) !important;
+    height: 100vh !important;
+    background: #ffffff !important;
+    padding: 20px 16px 40px !important;
+    margin: 0 !important;
+    border-radius: 16px 0 0 16px !important;
+    overflow-y: auto !important;
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.25) !important;
+    pointer-events: auto !important;
+    animation: slideInDrawer 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    border-left: 3px solid #e61b23 !important;
+  }
+
+  body.mobile-nav-active .navmenu ul li,
+  .navmenu.mobile-nav-active ul li {
+    width: 100%;
+    margin-bottom: 2px;
+  }
+
+  body.mobile-nav-active .navmenu ul li a,
+  .navmenu.mobile-nav-active ul li a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 12px 16px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #222 !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    min-height: 44px !important;
+  }
+
+  body.mobile-nav-active .navmenu ul li a:hover,
+  body.mobile-nav-active .navmenu ul li a.active,
+  .navmenu.mobile-nav-active ul li a:hover,
+  .navmenu.mobile-nav-active ul li a.active {
+    background: #fff0f1 !important;
+    color: #e61b23 !important;
+    padding-left: 20px !important;
+  }
+
+  .hero-swiper .carousel-container h2 {
+    font-size: clamp(22px, 5.5vw, 42px) !important;
+  }
+
+  .hero-swiper .carousel-container p {
+    font-size: clamp(13px, 3.5vw, 16px) !important;
+  }
+}
+
 
 /* Footer yardımcı sınıflar */
 .footer-heading {

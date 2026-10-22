@@ -59,6 +59,19 @@ export default function Header() {
     }
   }, [searchQuery, navigate])
 
+  /* Body class listener for mobile nav */
+  useEffect(() => {
+    document.body.classList.toggle('mobile-nav-active', mobileOpen)
+    return () => {
+      document.body.classList.remove('mobile-nav-active')
+    }
+  }, [mobileOpen])
+
+  /* Sayfa değiştiğinde mobil menüyü otomatik kapat */
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [location.pathname])
+
   const handleClear = useCallback(() => {
     setSearchQuery('')
     searchInputRef.current?.focus()
@@ -94,12 +107,22 @@ export default function Header() {
             <img
               src="/image/logo.png"
               alt="Yarasa Araştırmaları Derneği"
-              style={{ height: '48px', width: 'auto', objectFit: 'contain' }}
+              style={{ height: '44px', width: 'auto', objectFit: 'contain' }}
             />
           </Link>
 
           <nav id="navmenu" className={`navmenu${mobileOpen ? ' mobile-nav-active' : ''}`} aria-label="Ana menü">
             <ul>
+              <li className="d-xl-none text-end p-2 border-bottom mb-2">
+                <button
+                  type="button"
+                  className="btn btn-sm btn-outline-danger"
+                  onClick={closeMobile}
+                  style={{ borderRadius: '50px', padding: '4px 12px', fontSize: '13px' }}
+                >
+                  <i className="bi bi-x-lg me-1" /> Kapat
+                </button>
+              </li>
               {navLinks.map(link => (
                 <li key={link.to}>
                   <Link
@@ -122,13 +145,6 @@ export default function Header() {
                 </li>
               ))}
             </ul>
-            <button
-              type="button"
-              className={`mobile-nav-toggle d-xl-none bi ${mobileOpen ? 'bi-x' : 'bi-list'}`}
-              aria-label={mobileOpen ? 'Menüyü kapat' : 'Menüyü aç'}
-              aria-expanded={mobileOpen}
-              onClick={() => setMobileOpen(!mobileOpen)}
-            />
           </nav>
 
           <div className="header-actions d-flex align-items-center gap-2">
@@ -145,8 +161,9 @@ export default function Header() {
                 color: '#333',
                 fontSize: '12px',
                 fontWeight: 700,
-                padding: '4px 10px',
+                padding: '4px 8px',
                 transition: 'all 0.2s ease',
+                flexShrink: 0,
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = '#e61b23'
@@ -162,7 +179,7 @@ export default function Header() {
             </button>
 
             {/* Arama Kutusu */}
-            <div className="header-search">
+            <div className="header-search d-none d-sm-block">
               <input
                 key={location.pathname}
                 ref={searchInputRef}
@@ -174,6 +191,7 @@ export default function Header() {
                 aria-label="Blogda ara"
                 autoComplete="off"
                 role="searchbox"
+                style={{ width: '110px' }}
               />
               {searchQuery.trim().length > 0 && (
                 <button
@@ -207,6 +225,25 @@ export default function Header() {
                 <i className="bi bi-search" />
               </button>
             </div>
+
+            {/* Hamburger Menü Butonu (Mobilde her zaman görünür) */}
+            <button
+              type="button"
+              className={`mobile-nav-toggle d-xl-none bi ${mobileOpen ? 'bi-x' : 'bi-list'}`}
+              aria-label={mobileOpen ? 'Menüyü kapat' : 'Menüyü aç'}
+              aria-expanded={mobileOpen}
+              onClick={() => setMobileOpen(!mobileOpen)}
+              style={{
+                fontSize: '26px',
+                border: 'none',
+                background: 'none',
+                color: mobileOpen ? '#e61b23' : '#1a1a1a',
+                padding: '4px',
+                cursor: 'pointer',
+                lineHeight: 1,
+                marginLeft: '4px',
+              }}
+            />
           </div>
         </div>
       </header>
