@@ -75,6 +75,7 @@ export default function AdminPanel() {
   const [notifyStatus, setNotifyStatus] = useState<'idle' | 'sending' | 'done'>('idle')
   const [notifyMsg, setNotifyMsg] = useState('')
   const [backupMsg, setBackupMsg] = useState('')
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
   /* ── Bildirim gönder ─────────────────────────────── */
   const sendNotification = async (post: BlogPost) => {
@@ -144,6 +145,7 @@ export default function AdminPanel() {
         if (onClick) onClick()
         else setTab(t)
         if (t === 'new') { setForm(emptyForm); setEditId(null) }
+        setMobileNavOpen(false)
       }}
       style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '12px 16px',
         border: 'none', borderRadius: '8px', cursor: 'pointer',
@@ -157,18 +159,79 @@ export default function AdminPanel() {
     </button>
   )
 
+  const tabLabels: Record<Tab, string> = {
+    dashboard: 'Dashboard',
+    posts: 'Yazılar',
+    new: 'Yeni Yazı Ekle',
+    edit: 'Yazı Düzenle',
+    uyeler: 'Üyelik Başvuruları',
+    gonulluler: 'Gönüllü Başvuruları',
+    gozlemler: 'Gözlem Bildirimleri',
+    mesajlar: 'Gelen Mesajlar',
+    yedek: 'Veri Yedekleme & Arşiv',
+  }
+
   /* ═══════════════════════════════════════════════════════ */
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f5f5' }}>
+    <div className="admin-layout">
 
-      {/* ── Sidebar ── */}
-      <div style={{ width: '240px', background: '#1a1a1a', padding: '24px 16px', display: 'flex',
-        flexDirection: 'column', flexShrink: 0 }}>
-        <div style={{ textAlign: 'center', marginBottom: '32px', paddingBottom: '24px', borderBottom: '1px solid #333' }}>
-          <img src="/image/logo.png" alt="Logo" style={{ height: '50px', objectFit: 'contain' }} />
-          <div style={{ color: '#888', fontSize: '11px', marginTop: '8px' }}>Yönetim Paneli</div>
+      {/* ── Mobil Üst Bar (Ekran < 992px) ── */}
+      <header className="admin-mobile-topbar">
+        <button
+          type="button"
+          onClick={() => setMobileNavOpen(true)}
+          aria-label="Menüyü aç"
+          style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: '24px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+        >
+          <i className="bi bi-list" />
+        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <img src="/image/logo.png" alt="Logo" style={{ height: '32px', objectFit: 'contain' }} />
+          <span style={{ fontSize: '13px', fontWeight: 700, color: '#e61b23' }}>
+            {tabLabels[tab]}
+          </span>
         </div>
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
+        <button
+          type="button"
+          onClick={handleLogout}
+          aria-label="Çıkış Yap"
+          title="Çıkış Yap"
+          style={{ background: 'transparent', border: 'none', color: '#aaa', fontSize: '18px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+        >
+          <i className="bi bi-box-arrow-left" />
+        </button>
+      </header>
+
+      {/* ── Mobil Backdrop ── */}
+      {mobileNavOpen && (
+        <div
+          className="admin-backdrop"
+          onClick={() => setMobileNavOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* ── Sidebar (Masaüstü Sabit / Mobil Off-Canvas) ── */}
+      <aside className={`admin-sidebar ${mobileNavOpen ? 'open' : ''}`}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', paddingBottom: '16px', borderBottom: '1px solid #333' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <img src="/image/logo.png" alt="Logo" style={{ height: '44px', objectFit: 'contain' }} />
+            <div>
+              <div style={{ color: '#fff', fontSize: '13px', fontWeight: 700, lineHeight: 1.2 }}>YAD Admin</div>
+              <div style={{ color: '#888', fontSize: '10px' }}>Yönetim Portalı</div>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setMobileNavOpen(false)}
+            aria-label="Menüyü kapat"
+            className="d-lg-none"
+            style={{ background: '#262626', border: 'none', color: '#bbb', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+          >
+            <i className="bi bi-x-lg" style={{ fontSize: '14px' }} />
+          </button>
+        </div>
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1, overflowY: 'auto' }}>
           {sidebarItem('dashboard', 'bi-speedometer2', 'Dashboard')}
           <div style={{ borderTop: '1px solid #333', margin: '4px 0' }} />
           {sidebarItem('posts', 'bi-newspaper', `Yazılar (${postList.length})`)}
@@ -182,16 +245,16 @@ export default function AdminPanel() {
         </nav>
         <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '10px',
           width: '100%', padding: '12px 16px', border: 'none', borderRadius: '8px', cursor: 'pointer',
-          background: 'transparent', color: '#888', fontSize: '14px', transition: 'all 0.2s' }}
+          background: 'transparent', color: '#888', fontSize: '14px', transition: 'all 0.2s', marginTop: '12px' }}
           onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#e61b23' }}
           onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#888' }}
         >
           <i className="bi bi-box-arrow-left" /> Çıkış Yap
         </button>
-      </div>
+      </aside>
 
       {/* ── İçerik ── */}
-      <div style={{ flex: 1, padding: '32px', overflowY: 'auto' }}>
+      <main className="admin-content">
 
         {saved && (
           <div role="status" style={{ background: '#d4edda', border: '1px solid #c3e6cb',
@@ -972,7 +1035,7 @@ export default function AdminPanel() {
             </div>
           </>
         )}
-      </div>
+      </main>
 
       {/* ── Silme onayı modal ── */}
       <Modal
