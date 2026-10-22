@@ -103,27 +103,27 @@
   padding-top: 80px;
 }
 
-/* Kart hover efekti — öne çıkma + kırmızı glow */
+/* Kart hover efekti — dokunmatik mobilde takılmaması için sadece hover destekleyen ekranlarda */
 .hover-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   cursor: default;
 }
 
-.hover-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 12px 40px rgba(230, 27, 35, 0.25), 0 4px 16px rgba(0,0,0,0.15) !important;
+@media (hover: hover) {
+  .hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12) !important;
+  }
 }
 
-/* Service item hover efekti */
-.service-item {
-  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
-}
-
-.service-item:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 12px 40px rgba(230, 27, 35, 0.25), 0 4px 16px rgba(0,0,0,0.1) !important;
-  z-index: 1;
-  position: relative;
+/* Mobilde AOS animasyonu veya JS gecikmesi durumunda içeriklerin gizli kalmasını engelle */
+@media (max-width: 991px) {
+  [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+    transition: none !important;
+  }
 }
 
 /* Services-2 başlık rengi */
@@ -226,6 +226,24 @@
 .header {
   backdrop-filter: blur(10px) !important;
   background: rgba(255,255,255,0.97) !important;
+}
+
+@media (min-width: 1200px) {
+  .navmenu > ul {
+    display: flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+  }
+  .navmenu a {
+    padding: 6px 9px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.1px !important;
+    white-space: nowrap !important;
+  }
 }
 
 /* Page title overlay */

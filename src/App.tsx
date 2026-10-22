@@ -25,7 +25,7 @@ const AdminLogin = lazy(() => import('./pages/admin/AdminLogin'))
 const AdminPanel = lazy(() => import('./pages/admin/AdminPanel'))
 
 function initAOS() {
-  AOS.init({ duration: 600, easing: 'ease-in-out', once: true, mirror: false, disable: 'mobile' })
+  AOS.init({ duration: 600, easing: 'ease-in-out', once: true, mirror: false, disable: false })
 }
 
 function ScrollToTop() {
@@ -41,6 +41,13 @@ function AppContent() {
   useEffect(() => {
     initAOS()
   }, [])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      AOS.refresh()
+    }, 150)
+    return () => clearTimeout(timer)
+  }, [pathname])
 
   return (
     <>
