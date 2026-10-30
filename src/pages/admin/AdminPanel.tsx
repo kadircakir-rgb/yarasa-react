@@ -147,7 +147,8 @@ export default function AdminPanel() {
         if (t === 'new') { setForm(emptyForm); setEditId(null) }
         setMobileNavOpen(false)
       }}
-      style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '12px 16px',
+      style={{
+        display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '12px 16px',
         border: 'none', borderRadius: '8px', cursor: 'pointer',
         background: tab === t ? '#e61b23' : 'transparent',
         color: tab === t ? '#fff' : '#ccc', fontSize: '14px',
@@ -243,9 +244,11 @@ export default function AdminPanel() {
           <div style={{ borderTop: '1px solid #333', margin: '8px 0' }} />
           {sidebarItem('yedek', 'bi-database-down', 'Veri Yedekleme & Arşiv')}
         </nav>
-        <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '10px',
+        <button onClick={handleLogout} style={{
+          display: 'flex', alignItems: 'center', gap: '10px',
           width: '100%', padding: '12px 16px', border: 'none', borderRadius: '8px', cursor: 'pointer',
-          background: 'transparent', color: '#888', fontSize: '14px', transition: 'all 0.2s', marginTop: '12px' }}
+          background: 'transparent', color: '#888', fontSize: '14px', transition: 'all 0.2s', marginTop: '12px'
+        }}
           onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#e61b23' }}
           onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#888' }}
         >
@@ -257,9 +260,11 @@ export default function AdminPanel() {
       <main className="admin-content">
 
         {saved && (
-          <div role="status" style={{ background: '#d4edda', border: '1px solid #c3e6cb',
+          <div role="status" style={{
+            background: '#d4edda', border: '1px solid #c3e6cb',
             borderRadius: '8px', padding: '12px 16px', marginBottom: '20px', color: '#155724',
-            display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
+            display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px'
+          }}>
             <i className="bi bi-check-circle-fill" /> Yazı başarıyla kaydedildi!
           </div>
         )}
@@ -443,25 +448,35 @@ export default function AdminPanel() {
                   </button>
                 )}
                 <button onClick={() => { setForm(emptyForm); setEditId(null); setTab('new') }}
-                  style={{ background: '#e61b23', color: '#fff', border: 'none', borderRadius: '8px',
-                    padding: '10px 20px', fontSize: '14px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  style={{
+                    background: '#e61b23', color: '#fff', border: 'none', borderRadius: '8px',
+                    padding: '10px 20px', fontSize: '14px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px'
+                  }}>
                   <i className="bi bi-plus-lg" /> Yeni Yazı
                 </button>
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {postList.map(post => (
-                <div key={post.id} style={{ background: '#fff', borderRadius: '12px', padding: '20px 24px',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.06)', display: 'flex', alignItems: 'center', gap: '16px' }}>
-                  <img src={post.image} alt={post.title} style={{ width: '64px', height: '64px',
-                    objectFit: 'cover', borderRadius: '8px', flexShrink: 0 }}
+                <div key={post.id} style={{
+                  background: '#fff', borderRadius: '12px', padding: '20px 24px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.06)', display: 'flex', alignItems: 'center', gap: '16px'
+                }}>
+                  <img src={post.image} alt={post.title} style={{
+                    width: '64px', height: '64px',
+                    objectFit: 'cover', borderRadius: '8px', flexShrink: 0
+                  }}
                     onError={(e) => { (e.target as HTMLImageElement).src = '/assets/img/blog/blog-1.jpg' }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontWeight: 600, color: '#1a1a1a', fontSize: '15px', marginBottom: '4px',
-                      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{post.title}</div>
+                    <div style={{
+                      fontWeight: 600, color: '#1a1a1a', fontSize: '15px', marginBottom: '4px',
+                      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'
+                    }}>{post.title}</div>
                     <div style={{ fontSize: '12px', color: '#888' }}>
-                      <span style={{ background: '#f5e6e6', color: '#e61b23', padding: '2px 8px',
-                        borderRadius: '4px', marginRight: '8px', fontWeight: 500 }}>{post.category}</span>
+                      <span style={{
+                        background: '#f5e6e6', color: '#e61b23', padding: '2px 8px',
+                        borderRadius: '4px', marginRight: '8px', fontWeight: 500
+                      }}>{post.category}</span>
                       {post.author} · {post.date}
                       <span style={{ marginLeft: '8px', color: post.published ? '#2d6a2d' : '#888' }}>
                         <i className={`bi ${post.published ? 'bi-eye' : 'bi-eye-slash'}`} /> {" "}
@@ -470,14 +485,18 @@ export default function AdminPanel() {
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
-                    <button onClick={() => handleEdit(post)} style={{ background: '#f5e6e6',
+                    <button onClick={() => handleEdit(post)} style={{
+                      background: '#f5e6e6',
                       color: '#e61b23', border: 'none', borderRadius: '6px', padding: '8px 14px',
-                      cursor: 'pointer', fontSize: '13px', fontWeight: 500 }}>
+                      cursor: 'pointer', fontSize: '13px', fontWeight: 500
+                    }}>
                       <i className="bi bi-pencil" /> Düzenle
                     </button>
-                    <button onClick={() => setDeleteConfirm(post.id)} style={{ background: '#fff0f0',
+                    <button onClick={() => setDeleteConfirm(post.id)} style={{
+                      background: '#fff0f0',
                       color: '#c0392b', border: 'none', borderRadius: '6px', padding: '8px 14px',
-                      cursor: 'pointer', fontSize: '13px', fontWeight: 500 }}>
+                      cursor: 'pointer', fontSize: '13px', fontWeight: 500
+                    }}>
                       <i className="bi bi-trash" /> Sil
                     </button>
                   </div>
@@ -498,8 +517,10 @@ export default function AdminPanel() {
           <>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
               <button onClick={() => setTab('posts')}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#888',
-                  fontSize: '14px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer', color: '#888',
+                  fontSize: '14px', display: 'flex', alignItems: 'center', gap: '4px'
+                }}>
                 <i className="bi bi-arrow-left" /> Geri
               </button>
               <h1 style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>
@@ -532,18 +553,73 @@ export default function AdminPanel() {
                     placeholder="15 Mart 2026" style={inputStyle} />
                 </div>
                 <div>
-                  <label style={labelStyle}>Görsel URL veya Seçim</label>
-                  <input value={form.image}
-                    onChange={e => setForm({ ...form, image: e.target.value })}
-                    placeholder="/image/cacabey.png" style={inputStyle} />
+                  <label style={labelStyle}>Haber Görseli (Dosya Yükle veya Seç)</label>
+                  <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id="blog-image-upload"
+                      style={{ display: 'none' }}
+                      onChange={e => {
+                        const file = e.target.files?.[0]
+                        if (file) {
+                          const reader = new FileReader()
+                          reader.onload = ev => {
+                            if (ev.target?.result) {
+                              setForm({ ...form, image: ev.target.result as string })
+                            }
+                          }
+                          reader.readAsDataURL(file)
+                        }
+                      }}
+                    />
+                    <label
+                      htmlFor="blog-image-upload"
+                      style={{
+                        padding: '9px 14px',
+                        background: '#e61b23',
+                        color: '#fff',
+                        borderRadius: '8px',
+                        fontSize: '13px',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <i className="bi bi-cloud-arrow-up" /> Bilgisayardan Fotoğraf Seç
+                    </label>
+                    <input
+                      value={form.image}
+                      onChange={e => setForm({ ...form, image: e.target.value })}
+                      placeholder="/image/... veya https://..."
+                      style={{ ...inputStyle, flex: 1 }}
+                    />
+                  </div>
+
+                  {/* Görsel Önizleme */}
+                  {form.image && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px', padding: '8px', background: '#f9f9f9', borderRadius: '8px', border: '1px solid #eee' }}>
+                      <img
+                        src={form.image}
+                        alt="Önizleme"
+                        style={{ width: '60px', height: '45px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ddd' }}
+                      />
+                      <span style={{ fontSize: '12px', color: '#666', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '240px' }}>
+                        Görsel yüklendi: {form.image.startsWith('data:') ? 'Bilgisayardan dosya seçildi' : form.image}
+                      </span>
+                    </div>
+                  )}
+
                   <div style={{ marginTop: '8px', display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                     {[
-                      { label: 'Cacabey', src: '/image/cacabey.png' },
-                      { label: 'Hayat / Park', src: '/image/hayat.png' },
-                      { label: 'Mağara Koloni', src: '/image/lazım2.png' },
-                      { label: 'Tünek Yakın', src: '/image/lazım1.png' },
-                      { label: 'Saha Ekip', src: '/image/Hizmetler.png' },
-                      { label: 'Saha 1', src: '/image/saha1.png' },
+                      { label: 'Cacabey', src: '/image/cacabey.webp' },
+                      { label: 'Saha Transekti', src: '/image/saha-calismalari/20260428_194136.webp' },
+                      { label: 'Mağara Koloni', src: '/image/yarasalar/magara-tunek-girisi.webp' },
+                      { label: 'Tür İnceleme', src: '/image/yarasalar/yarasa-morfoloji-inceleme.webp' },
+                      { label: 'Köprü Kontrol', src: '/image/saha-calismalari/20260513_133239.webp' },
                     ].map(img => (
                       <button
                         key={img.src}
@@ -580,14 +656,18 @@ export default function AdminPanel() {
               </div>
               <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
                 <button onClick={() => setTab('posts')}
-                  style={{ padding: '12px 24px', border: '1.5px solid #e0e0e0', borderRadius: '8px',
-                    background: '#fff', color: '#666', cursor: 'pointer', fontSize: '14px' }}>
+                  style={{
+                    padding: '12px 24px', border: '1.5px solid #e0e0e0', borderRadius: '8px',
+                    background: '#fff', color: '#666', cursor: 'pointer', fontSize: '14px'
+                  }}>
                   İptal
                 </button>
                 <button onClick={handleSave}
-                  style={{ padding: '12px 28px', background: '#e61b23', color: '#fff', border: 'none',
+                  style={{
+                    padding: '12px 28px', background: '#e61b23', color: '#fff', border: 'none',
                     borderRadius: '8px', cursor: 'pointer', fontSize: '14px', fontWeight: 600,
-                    display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    display: 'flex', alignItems: 'center', gap: '6px'
+                  }}>
                   <i className="bi bi-check-lg" /> {tab === 'edit' ? 'Güncelle' : 'Yayınla'}
                 </button>
               </div>
@@ -1083,8 +1163,10 @@ export default function AdminPanel() {
           ) : notifyStatus === 'sending' ? (
             <>
               <i className="bi bi-send"
-                style={{ fontSize: '48px', color: '#e61b23', display: 'block', marginBottom: '16px',
-                  animation: 'spin 1s linear infinite' }}
+                style={{
+                  fontSize: '48px', color: '#e61b23', display: 'block', marginBottom: '16px',
+                  animation: 'spin 1s linear infinite'
+                }}
                 aria-hidden="true" />
               <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '8px' }}>Gönderiliyor…</h3>
               <p style={{ color: '#888', fontSize: '14px' }}>Abonelere bildirim e-postası gönderiliyor.</p>
@@ -1105,12 +1187,16 @@ export default function AdminPanel() {
                 <button
                   onClick={() => { setNotifyPending(null); setNotifyStatus('idle') }}
                   autoFocus
-                  style={{ padding: '10px 24px', border: '1.5px solid #e0e0e0', borderRadius: '8px',
-                    background: '#fff', cursor: 'pointer', fontSize: '14px' }}>Hayır, Geç</button>
+                  style={{
+                    padding: '10px 24px', border: '1.5px solid #e0e0e0', borderRadius: '8px',
+                    background: '#fff', cursor: 'pointer', fontSize: '14px'
+                  }}>Hayır, Geç</button>
                 <button
                   onClick={() => { if (notifyPending) sendNotification(notifyPending) }}
-                  style={{ padding: '10px 24px', background: '#e61b23', color: '#fff', border: 'none',
-                    borderRadius: '8px', cursor: 'pointer', fontSize: '14px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  style={{
+                    padding: '10px 24px', background: '#e61b23', color: '#fff', border: 'none',
+                    borderRadius: '8px', cursor: 'pointer', fontSize: '14px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px'
+                  }}>
                   <i className="bi bi-send" /> Evet, Gönder
                 </button>
               </div>

@@ -3,7 +3,7 @@ import { useLangStore } from '../store/langStore'
 
 const SOCIAL = [
   { icon: 'bi-instagram', href: 'https://www.instagram.com/yarasaarastirma/', label: 'Instagram' },
-  { icon: 'bi-envelope', href: 'mailto:yarasagozlemtoplulugu@gmail.com', label: 'E-posta' },
+  { icon: 'bi-envelope', href: 'mailto:yarasaarastirmalari@gmail.com', label: 'E-posta' },
 ]
 
 export default function Footer() {

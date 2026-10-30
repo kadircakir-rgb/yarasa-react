@@ -177,17 +177,10 @@ export default function Blog() {
               </div>
             </div>
           ) : (
-            /* ── Yazılar ızgarası ── */
+            /* ── Yazılar ızgarası (Tüm kartlar eşit boyutta) ── */
             <div className="row gy-4">
-              {/* Öne çıkan — ilk yazı büyük */}
-              {posts[0] && (
-                <div className="col-12" data-aos="fade-up">
-                  <PostCard post={posts[0]} featured />
-                </div>
-              )}
-              {/* Diğer yazılar */}
-              {posts.slice(posts[0] ? 1 : 0).map((p, i) => (
-                <div key={p.id} className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay={`${(i + 1) * 100}`}>
+              {posts.map((p, i) => (
+                <div key={p.id} className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay={`${(i % 3 + 1) * 100}`}>
                   <PostCard post={p} />
                 </div>
               ))}

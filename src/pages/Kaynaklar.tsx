@@ -17,18 +17,18 @@ interface DocItem {
 const officialDocs: DocItem[] = [
   {
     id: 'poster-tunek',
-    title: 'Tünek Koruma Posteri (50x70 cm)',
+    title: 'Tünek Koruma Posteri',
     category: 'Resmi Dernek Posteri',
     desc: 'Yarasaların ekolojik önemi, tünek alanlarının korunması (2872 ve 4915 sayılı kanunlar) ve yuva tahribatının önlenmesi amacıyla derneğimizce hazırlanan resmi basılı afiş.',
     img: '/image/tunek-poster-preview.webp',
     fileUrl: '/image/tunek-poster.jpg',
-    format: 'Yüksek Çözünürlüklü JPG (50x70)',
+    format: 'Yüksek Çözünürlüklü Görsel',
     size: '15.9 MB',
     badge: 'Resmi Afiş'
   },
   {
     id: 'brosur-on',
-    title: 'Yarasa Bilgilendirme Broşürü — Kapak & Ön Yüz',
+    title: 'Yarasa Bilgilendirme Broşürü',
     category: 'Halk Eğitimi ve Farkındalık',
     desc: 'Yarasalar hakkında doğru bilinen yanlışlar, tarımsal biyolojik mücadeledeki rolleri ve vatandaş bilimi ilkelerini açıklayan resmi broşür.',
     img: '/image/brosur-1-preview.webp',
@@ -39,14 +39,25 @@ const officialDocs: DocItem[] = [
   },
   {
     id: 'brosur-arka',
-    title: 'Yarasa Bilgilendirme Broşürü — İç & Arka Yüz',
+    title: 'Yarasa Koruma ve Tür Rehberi Broşürü',
     category: 'Tür Bilgisi ve Koruma Protokolü',
     desc: 'Bölgesel yarasa türleri, tünek tespiti, yuva kontrolü kuralları ve evinize yarasa girdiğinde izlenmesi gereken adımlar.',
     img: '/image/brosur-2-preview.webp',
     fileUrl: '/image/brosur-2.jpg',
-    format: 'Yüksek Çözünürlüklü JPG',
+    format: 'Yüksek Çözünürlüklü Görsel',
     size: '16.8 MB',
     badge: 'Broşür İçerik'
+  },
+  {
+    id: 'turkiye-yarasalari-bilgilendirme',
+    title: 'Türkiye Yarasaları Bilgilendirme Dokümanı',
+    category: 'Bilimsel Bilgilendirme Dosyası',
+    desc: 'Türkiye Chiroptera faunası, 40 yarasa türünün taksonomik detayları, tünek ekolojisi ve yasal koruma protokollerini içeren resmi bilgilendirme metni.',
+    img: '/image/cacabey.webp',
+    fileUrl: '/docs/Turkiye_Yarasalari_Bilgilendirme.docx',
+    format: 'Word Dokümanı (DOCX)',
+    size: '1.2 MB',
+    badge: 'Bilgilendirme Dosyası'
   },
 ]
 

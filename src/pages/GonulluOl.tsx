@@ -13,11 +13,11 @@ const faq = [
 
 const volunteerGallery: LightboxImage[] = [
   {
-    src: '/image/gonullu-ol/gonullu-gece-gozlemi.webp',
-    title: 'Gece Transektinde Aktif Ses Kaydı',
-    tag: 'Saha Gözlemi',
-    date: '18 Mayıs 2026',
-    caption: 'Gönüllülerimizle birlikte Kırşehir güzergâhında Elekon Batlogger ile gün batımı sonrası ultrasonik ekolokasyon kaydı.',
+    src: '/image/gonullu-ol/gonullu-saha-egitimi-1.webp',
+    title: 'Alacakaranlıkta Cihaz & Transekt Eğitimi',
+    tag: 'Saha Eğitimi',
+    date: '12 Mayıs 2026',
+    caption: 'Saha çıkışı öncesinde gönüllülere GPS doğrulama ve dedektör kullanım protokolünün aktarılması.',
   },
   {
     src: '/image/gonullu-ol/gonullu-saha-egitimi-1.webp',
@@ -72,7 +72,7 @@ export default function GonulluOl() {
         title="Gönüllü Ol"
         subtitle="Bilime katkı sağlayın — Yarasa gözlemcisi olun"
         crumb="Gönüllü Ol"
-        bg="/image/gonullu-ol/gonullu-gece-gozlemi.webp"
+        bg="/image/saha-calismalari/20260602_201650.webp"
       />
 
       {/* ── GİRİŞ BÖLÜMÜ ── */}

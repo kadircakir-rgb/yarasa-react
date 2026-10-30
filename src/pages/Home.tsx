@@ -48,7 +48,7 @@ const services2Slides = [
 const homeGalleryItems = [
   {
     src: '/image/ana-sayfa/hero-1.webp',
-    title: 'Akşam Alacakaranlık ve Gece Transekt Ekibi',
+    title: 'Gece Yarasa Gözlemleri',
     tag: 'Saha Çalışması',
     date: 'Haziran 2026',
     caption: 'Araştırma ekibimizin gün batımı sonrasında Elekon Batlogger S2 dedektörleriyle yürüttüğü gece surveyi.',
@@ -83,8 +83,8 @@ const homeGalleryItems = [
   },
   {
     src: '/image/ana-sayfa/hero-3.webp',
-    title: 'Kanyon ve Ripariyen Koridoru',
-    tag: 'Habitat Tespiti',
+    title: 'Mağara Koloni Tespiti',
+    tag: 'Koloni Tespiti',
     date: 'Temmuz 2026',
     caption: 'Kızılırmak havzasında yarasa kolonilerinin avlanma ve uçuş güzergâhı olan doğal vadi habitatı.',
   },
@@ -265,11 +265,11 @@ export default function Home() {
                 {[
                   {
                     title: isTr ? 'Kırşehir Yarasa Faunasının Belirlenmesi Projesi' : 'Determining the Bat Fauna of Kırşehir',
-                    badge: isTr ? 'Tamamlandı • 2026' : 'Completed • 2026',
+                    badge: isTr ? 'Devam Ediyor • 2026' : 'Ongoing • 2026',
                     lead: isTr ? 'İç Anadolu Biyoçeşitlilik Envanteri' : 'Central Anatolia Biodiversity Inventory',
                     desc: isTr
-                      ? 'Kırşehir il merkezi ve kırsal alanlarında 8 farklı habitat tipinde yürütülen ve Türkiye genelinde kayıtlı 41 yarasa türü çerçevesinde bölgesel tür çeşitliliğini ortaya koyan kapsamlı BAP araştırma projesi başarıyla tamamlanmıştır.'
-                      : 'Comprehensive BAP research project investigating 8 habitat zones in Kırşehir, reporting regional species richness within Turkey’s 41 bat species catalogue.',
+                      ? 'Kırşehir il merkezi ve kırsal alanlarında farklı habitat tiplerinde yürütülen ve Türkiye genelinde kayıtlı 40 yarasa türü çerçevesinde bölgesel tür çeşitliliğini ortaya koyan kapsamlı BAP araştırma projesi devam etmektedir.'
+                      : 'Comprehensive BAP research project investigating various habitat zones in Kırşehir, reporting regional species richness within Turkey’s 40 bat species catalogue.',
                     icon: 'bi-geo-alt-fill',
                     img: '/image/cacabey.webp',
                     tag: isTr ? 'BAP Destekli' : 'BAP Funded',
@@ -279,22 +279,22 @@ export default function Home() {
                     badge: isTr ? 'Tamamlandı • Raporlandı' : 'Completed • Reported',
                     lead: isTr ? 'Yuva Kontrolleri ve Koruma Haritası' : 'Roost Inspection & Conservation Map',
                     desc: isTr
-                      ? 'Cacabey Meydanı, tarihi kâgir binalar ve nehir üstü betonarme köprü derzlerindeki yarasa tünekleri endoskopik kamera ve akustik izleme ile haritalandırılmış, koruma önerileri kamu kurumlarıyla paylaşılmıştır.'
+                      ? 'Nehir üstü betonarme köprü derzlerindeki ve tarihi kâgir binalardaki yarasa tünekleri endoskopik kamera ve akustik izleme ile haritalandırılmış, koruma önerileri kamu kurumlarıyla paylaşılmıştır.'
                       : 'Roosts in historical stone buildings and bridge joints surveyed with endoscopic cameras and acoustic listening; conservation guidelines submitted to authorities.',
                     icon: 'bi-house-check-fill',
                     img: '/image/saha-calismalari/20260421_164711_0.webp',
                     tag: isTr ? 'Yuva Kontrolü' : 'Roost Check',
                   },
                   {
-                    title: isTr ? 'Kızılırmak Ripariyen Koridoru Akustik Aktivite Analizi' : 'Kızılırmak Riparian Corridor Acoustic Analysis',
-                    badge: isTr ? 'Tamamlandı • Yayınlandı' : 'Completed • Published',
-                    lead: isTr ? 'Ultrasonik Ses Kaydı ve Tür Tespiti' : 'Ultrasonic Recording & Species ID',
+                    title: isTr ? 'Kılıçözü Deresi Boyunca Uçuş Gözlemleri' : 'Flight Surveys Along Kılıçözü Creek',
+                    badge: isTr ? 'Devam Ediyor • Gözlem' : 'Ongoing • Survey',
+                    lead: isTr ? 'Uçuş Gözlemleri ve Tür Tespiti' : 'Flight Surveys & Species ID',
                     desc: isTr
-                      ? 'Kızılırmak havzası boyunca Elekon Batlogger S2 dedektörleri ile transekt surveyleri gerçekleştirilmiş; sucul avlanma bölgeleri ve kentsel ışık kirliliğinin aktiviteye etkileri sayısal olarak analiz edilmiştir.'
+                      ? 'Şehir merkezinde Kılıçözü deresi boyunca Elekon Batlogger S2 dedektörleri ile transekt surveyleri ve gece uçuş gözlemleri gerçekleştirilmiş; sucul avlanma bölgeleri ve kentsel ışık kirliliğinin aktiviteye etkileri analiz edilmektedir.'
                       : 'Transect surveys along the Kızılırmak basin with Elekon Batlogger S2 detectors; aquatic foraging sites and light pollution impacts quantitatively analyzed.',
                     icon: 'bi-soundwave',
                     img: '/image/saha-calismalari/20260428_194136.webp',
-                    tag: isTr ? 'Akustik Analiz' : 'Acoustic Analysis',
+                    tag: isTr ? 'Uçuş Gözlemleri' : 'Flight Observations',
                   },
                 ].map((p, i) => (
                   <div key={i} className="col-lg-4 col-md-6">
@@ -339,9 +339,9 @@ export default function Home() {
               <span className="text-black-50">·</span>
               <span><i className="bi bi-calendar3" style={{ color: '#e61b23' }} /> <strong>Mart 2026</strong>{isTr ? '\'dan Bu Yana Aktif' : ' Active Since'}</span>
               <span className="text-black-50">·</span>
-              <span><i className="bi bi-check-all" style={{ color: '#e61b23' }} /> <strong>41</strong> {isTr ? 'Türkiye’de Kayıtlı Tür' : 'Species in Turkey'}</span>
+              <span><i className="bi bi-check-all" style={{ color: '#e61b23' }} /> <strong>40</strong> {isTr ? 'Türkiye’de Kayıtlı Tür' : 'Species in Turkey'}</span>
               <span className="text-black-50">·</span>
-              <span><i className="bi bi-mortarboard" style={{ color: '#e61b23' }} /> <strong>1</strong> {isTr ? 'Tamamlanan Kırşehir BAP Projesi' : 'Completed BAP Project'}</span>
+              <span><i className="bi bi-mortarboard" style={{ color: '#e61b23' }} /> <strong>1</strong> {isTr ? 'Devam Eden BAP Projesi' : 'Ongoing BAP Project'}</span>
             </div>
             <div className="text-muted small">
               {isTr
@@ -397,7 +397,7 @@ export default function Home() {
                 <i className="bi bi-heart-fill me-1" />{isTr ? 'Doğa İle Uzlaşık Yaşam' : 'Harmony with Nature'}
               </span>
               <h2 className="mb-4" style={{ fontFamily: 'var(--heading-font)', fontSize: '2.2rem', fontWeight: 600, color: 'var(--heading-color)' }}>
-                {isTr ? 'Yarasalar Hayatı Daha İyi Kılar' : 'Bats Make Life Better'}
+                {isTr ? 'Yarasalar Hayatın Daha İyi Olmasını Sağlar' : 'Bats Make Life Better'}
               </h2>
               <p className="mb-3" style={{ lineHeight: '1.8' }}>
                 {isTr
@@ -598,52 +598,6 @@ export default function Home() {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* ── EN ALTTA: KIRŞEHİR AHİ EVRAN ÜNİVERSİTESİ (BAP DESTEĞİ VE AKADEMİK EV SAHİBİ) ── */}
-          <div className="row justify-content-center" data-aos="zoom-in">
-            <div className="col-lg-10">
-              <div
-                className="p-4 p-md-5 rounded-4 shadow-sm text-center position-relative overflow-hidden hover-card"
-                style={{
-                  background: 'linear-gradient(135deg, #ffffff 0%, #fdf8f8 100%)',
-                  border: '2.5px solid #e61b23',
-                }}
-              >
-                <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '120px', height: '120px', background: 'rgba(230,27,35,0.05)', borderRadius: '50%' }} />
-                <div className="d-flex align-items-center justify-content-center gap-3 mb-3 flex-wrap">
-                  <div style={{ width: 68, height: 68, background: '#e61b23', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '32px', boxShadow: '0 4px 16px rgba(230,27,35,0.3)' }}>
-                    <i className="bi bi-mortarboard-fill" />
-                  </div>
-                  <div className="text-md-start">
-                    <span className="badge bg-danger text-white px-3 py-1 mb-1 text-uppercase" style={{ fontSize: '11px', letterSpacing: '1px' }}>
-                      {isTr ? 'ANA AKADEMİK DESTEKLEYİCİ VE PROJE SAHİBİ' : 'MAIN ACADEMIC HOST & PROJECT SPONSOR'}
-                    </span>
-                    <h3 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#1a1a1a', margin: 0 }}>
-                      KIRŞEHİR AHİ EVRAN ÜNİVERSİTESİ
-                    </h3>
-                  </div>
-                </div>
-
-                <div className="text-muted mb-3" style={{ fontSize: '14.5px', maxWidth: '780px', margin: '0 auto', lineHeight: '1.7' }}>
-                  {isTr
-                    ? 'Yarasa araştırmalarımız, Kırşehir Ahi Evran Üniversitesi bünyesinde yürütülmekte olup Ahi Evran Üniversitesi Bilimsel Araştırma Projeleri (BAP) Koordinatörlüğü ve Hayvan Deneyleri Yerel Etik Kurulu (HADYEK) desteğiyle finanse edilmektedir.'
-                    : 'Our bat research is conducted under Kırşehir Ahi Evran University, supported and funded by the Scientific Research Projects (BAP) Coordination Unit and the Animal Experiments Local Ethics Committee (HADYEK).'}
-                </div>
-
-                <div className="d-flex justify-content-center flex-wrap gap-2 pt-2">
-                  <span className="badge bg-white text-dark border px-3 py-2 shadow-sm" style={{ fontSize: '12.5px' }}>
-                    <i className="bi bi-award-fill text-danger me-1" /> Ahi Evran BAP Proje Desteği
-                  </span>
-                  <span className="badge bg-white text-dark border px-3 py-2 shadow-sm" style={{ fontSize: '12.5px' }}>
-                    <i className="bi bi-patch-check-fill text-danger me-1" /> HADYEK Etik Kurul Onaylı
-                  </span>
-                  <span className="badge bg-white text-dark border px-3 py-2 shadow-sm" style={{ fontSize: '12.5px' }}>
-                    <i className="bi bi-building-check text-danger me-1" /> Kırşehir İl Geneli Araştırma Merkezi
-                  </span>
-                </div>
-              </div>
-            </div>
           </div>
 
         </div>

@@ -10,49 +10,66 @@ const card: React.CSSProperties = {
   transition: 'transform 0.3s ease, box-shadow 0.3s ease',
 }
 
-const ALL_BAT_SPECIES: [string, string, string, 'M' | 'B', 'LC' | 'NT' | 'VU' | 'EN' | 'DD'][] = [
-  ['Pteropodidae', 'Rousettus aegyptiacus', 'Mısır Meyve Yarasası', 'M', 'LC'],
-  ['Rhinopomatidae', 'Rhinopoma microphyllum', 'Büyük Fareağızlı Yarasa', 'B', 'LC'],
-  ['Rhinopomatidae', 'Rhinopoma hardwickii', 'Küçük Fareağızlı Yarasa', 'B', 'LC'],
-  ['Emballonuridae', 'Taphozous nudiventris', 'Çıplak Karınlı Yarasa', 'B', 'LC'],
-  ['Rhinolophidae', 'Rhinolophus ferrumequinum', 'Büyük Nalburunlu Yarasa', 'B', 'LC'],
-  ['Rhinolophidae', 'Rhinolophus hipposideros', 'Küçük Nalburunlu Yarasa', 'B', 'LC'],
-  ['Rhinolophidae', 'Rhinolophus euryale', 'Akdeniz Nalburunlu Yarasası', 'B', 'VU'],
-  ['Rhinolophidae', 'Rhinolophus mehelyi', 'Mehely Nalburunlu Yarasası', 'B', 'VU'],
-  ['Rhinolophidae', 'Rhinolophus blasii', 'Blasius Nalburunlu Yarasası', 'B', 'NT'],
-  ['Vespertilionidae', 'Myotis myotis', 'Büyük Farekulaklı Yarasa', 'B', 'LC'],
-  ['Vespertilionidae', 'Myotis blythii', 'Küçük Farekulaklı Yarasa', 'B', 'LC'],
-  ['Vespertilionidae', 'Myotis emarginatus', 'Saçaklı Yarasa', 'B', 'LC'],
-  ['Vespertilionidae', 'Myotis nattereri', 'Natterer Yarasası', 'B', 'LC'],
-  ['Vespertilionidae', 'Myotis bechsteinii', 'Bechstein Yarasası', 'B', 'NT'],
-  ['Vespertilionidae', 'Myotis mystacinus', 'Bıyıklı Yarasa', 'B', 'LC'],
-  ['Vespertilionidae', 'Myotis aurascens', 'Bozkır Bıyıklı Yarasası', 'B', 'LC'],
-  ['Vespertilionidae', 'Myotis brandtii', 'Brandt Yarasası', 'B', 'LC'],
-  ['Vespertilionidae', 'Myotis daubentonii', 'Su Yarasası', 'B', 'LC'],
-  ['Vespertilionidae', 'Myotis capaccinii', 'Uzun Ayaklı Su Yarasası', 'B', 'VU'],
-  ['Vespertilionidae', 'Myotis schaubi', 'Schaub Yarasası', 'B', 'EN'],
-  ['Vespertilionidae', 'Myotis alcathoe', 'Alcathoe Yarasası', 'B', 'DD'],
-  ['Vespertilionidae', 'Myotis crypticus', 'Kriptik Farekulaklı Yarasa', 'B', 'LC'],
-  ['Vespertilionidae', 'Pipistrellus pipistrellus', 'Cüce Yarasa', 'B', 'LC'],
-  ['Vespertilionidae', 'Pipistrellus pygmaeus', 'Yumuşak Cüce Yarasa', 'B', 'LC'],
-  ['Vespertilionidae', 'Pipistrellus kuhlii', 'Kuhl Cüce Yarasası', 'B', 'LC'],
-  ['Vespertilionidae', 'Pipistrellus nathusii', 'Nathusius Cüce Yarasası', 'B', 'LC'],
-  ['Vespertilionidae', 'Pipistrellus savii', 'Savi Cüce Yarasası', 'B', 'LC'],
-  ['Vespertilionidae', 'Nyctalus noctula', 'Akşamcı Yarasa', 'B', 'LC'],
-  ['Vespertilionidae', 'Nyctalus leisleri', 'Küçük Akşamcı Yarasa', 'B', 'LC'],
-  ['Vespertilionidae', 'Nyctalus lasiopterus', 'Büyük Akşamcı Yarasa', 'B', 'VU'],
-  ['Vespertilionidae', 'Eptesicus serotinus', 'Geç Yarasa', 'B', 'LC'],
-  ['Vespertilionidae', 'Eptesicus nilssonii', 'Kuzey Yarasası', 'B', 'LC'],
-  ['Vespertilionidae', 'Vespertilio murinus', 'İki Renkli Yarasa', 'B', 'LC'],
-  ['Vespertilionidae', 'Plecotus auritus', 'Kahverengi Uzun Kulaklı Yarasa', 'B', 'LC'],
-  ['Vespertilionidae', 'Plecotus austriacus', 'Gri Uzun Kulaklı Yarasa', 'B', 'LC'],
-  ['Vespertilionidae', 'Plecotus macrobullaris', 'Alp Uzun Kulaklı Yarasası', 'B', 'LC'],
-  ['Vespertilionidae', 'Plecotus kolombatovici', 'Kolombatovic Uzun Kulaklı Yarasası', 'B', 'LC'],
-  ['Vespertilionidae', 'Barbastella barbastellus', 'Sakallı Yarasa', 'B', 'NT'],
-  ['Vespertilionidae', 'Otonycteris hemprichii', 'Hemprich Uzun Kulaklı Yarasası', 'B', 'LC'],
-  ['Miniopteridae', 'Miniopterus schreibersii', 'Uzun Kanatlı Yarasa', 'B', 'NT'],
-  ['Molossidae', 'Tadarida teniotis', 'Avrupa Bulldog Yarasası', 'B', 'LC'],
+export interface BatSpeciesItem {
+  id: number
+  family: string
+  scientificName: string
+  turkishName: string
+  diet: 'Meyve' | 'Böcekçil'
+  iucnGlobal: string
+  iucnEurope: string
+  iucnMediterranean: string
+}
+
+export const ALL_BAT_SPECIES: BatSpeciesItem[] = [
+  // 1. Pteropodidae
+  { id: 1, family: 'Pteropodidae', scientificName: 'Rousettus aegyptiacus (É. Geoffroy, 1810)', turkishName: 'Mısır Meyve Yarasası', diet: 'Meyve', iucnGlobal: 'LC', iucnEurope: 'CR', iucnMediterranean: 'NT' },
+  // 2. Rhinolophidae
+  { id: 2, family: 'Rhinolophidae', scientificName: 'Rhinolophus blasii Peters, 1866', turkishName: 'Blasius Nalburunlu Yarasası', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'VU', iucnMediterranean: 'NT' },
+  { id: 3, family: 'Rhinolophidae', scientificName: 'Rhinolophus mehelyi Matschie, 1901', turkishName: 'Akdeniz Nalburunlu Yarasası', diet: 'Böcekçil', iucnGlobal: 'VU', iucnEurope: 'EN', iucnMediterranean: 'VU' },
+  { id: 4, family: 'Rhinolophidae', scientificName: 'Rhinolophus euryale Blasius, 1853', turkishName: 'Mehely Nalburunlu Yarasası', diet: 'Böcekçil', iucnGlobal: 'NT', iucnEurope: 'VU', iucnMediterranean: 'VU' },
+  { id: 5, family: 'Rhinolophidae', scientificName: 'Rhinolophus ferrumequinum (Schreber, 1774)', turkishName: 'Büyük Nalburunlu Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'NT' },
+  { id: 6, family: 'Rhinolophidae', scientificName: 'Rhinolophus hipposideros (Bechstein, 1800)', turkishName: 'Küçük Nalburunlu Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'NT' },
+  // 3. Vespertilionidae (Tabloda Vespertilionidae bitene kadar devam ediyor)
+  { id: 7, family: 'Vespertilionidae', scientificName: 'Nyctalus lasiopterus (Schreber, 1780)', turkishName: 'Büyük Akşamcı Yarasa', diet: 'Böcekçil', iucnGlobal: 'VU', iucnEurope: 'VU', iucnMediterranean: 'NT' },
+  { id: 8, family: 'Vespertilionidae', scientificName: 'Nyctalus leisleri (Kuhl, 1817)', turkishName: 'Küçük Akşamcı Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'LC' },
+  { id: 9, family: 'Vespertilionidae', scientificName: 'Nyctalus noctula (Schreber, 1774)', turkishName: 'Akşamcı Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'LC' },
+  { id: 10, family: 'Vespertilionidae', scientificName: 'Pipistrellus pipistrellus (Schreber, 1774)', turkishName: 'Cüce Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'LC' },
+  { id: 11, family: 'Vespertilionidae', scientificName: 'Pipistrellus pygmaeus (Leach, 1825)', turkishName: 'Akdeniz Cüce Yarasası', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'LC' },
+  { id: 12, family: 'Vespertilionidae', scientificName: 'Pipistrellus nathusii (Keyserling & Blasius, 1839)', turkishName: 'Sertderili Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'LC' },
+  { id: 13, family: 'Vespertilionidae', scientificName: 'Pipistrellus kuhlii (Kuhl, 1817)', turkishName: 'Beyazşeritli Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'LC' },
+  { id: 14, family: 'Vespertilionidae', scientificName: 'Hypsugo savii (Bonaparte, 1837)', turkishName: 'Savi’nin Cüce Yarasası', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'LC' },
+  { id: 15, family: 'Vespertilionidae', scientificName: 'Vespertilio murinus Linnaeus, 1758', turkishName: 'Çiftrenkli Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'NA' },
+  { id: 16, family: 'Vespertilionidae', scientificName: 'Cnephaeus anatolicus Felten 1971', turkishName: 'Akdeniz Genişkanatlı Yarasası', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'DD', iucnMediterranean: '—' },
+  { id: 17, family: 'Vespertilionidae', scientificName: 'Cnephaeus serotinus (Schreber, 1774)', turkishName: 'Geniş kanatlı Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'LC' },
+  { id: 18, family: 'Vespertilionidae', scientificName: 'Barbastella barbastellus (Schreber, 1774)', turkishName: 'Basıkburunlu Yarasa', diet: 'Böcekçil', iucnGlobal: 'NT', iucnEurope: 'VU', iucnMediterranean: 'NT' },
+  { id: 19, family: 'Vespertilionidae', scientificName: 'Plecotus austriacus (Fischer, 1829)', turkishName: 'Gri Uzunkulaklı Yarasa', diet: 'Böcekçil', iucnGlobal: 'NT', iucnEurope: '—', iucnMediterranean: 'NT' },
+  { id: 20, family: 'Vespertilionidae', scientificName: 'Plecotus kolombatovici Đulić, 1980', turkishName: 'Balkan Uzunkulaklı Yarasası', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'VU', iucnMediterranean: '—' },
+  { id: 21, family: 'Vespertilionidae', scientificName: 'Plecotus macrobullaris Kuzjakin, 1965', turkishName: 'Uzunkulaklı Kafkas Yarasası', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'NT', iucnMediterranean: 'NT' },
+  { id: 22, family: 'Vespertilionidae', scientificName: 'Plecotus auritus (Linnaeus, 1758)', turkishName: 'Kahverengi Uzunkulaklı Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'LC' },
+  { id: 23, family: 'Vespertilionidae', scientificName: 'Otonycteris hemprichii Peters, 1859', turkishName: 'Uzunkulaklı Çöl Yarasası', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: '—', iucnMediterranean: '—' },
+  { id: 24, family: 'Vespertilionidae', scientificName: 'Myotis mystacinus (Kuhl, 1817)', turkishName: 'Bıyıklı Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'LC' },
+  { id: 25, family: 'Vespertilionidae', scientificName: 'Myotis brandti (Eversmann, 1845)', turkishName: 'Sakallı Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: '—' },
+  { id: 26, family: 'Vespertilionidae', scientificName: 'Myotis emarginatus (É. Geoffroy, 1806)', turkishName: 'Kirpikli Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'LC' },
+  { id: 27, family: 'Vespertilionidae', scientificName: 'Myotis nattereri (Kuhl, 1817)', turkishName: 'Saçaklı Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: '—' },
+  { id: 28, family: 'Vespertilionidae', scientificName: 'Myotis hoveli Harrison, 1964', turkishName: 'Hovelin Myotis', diet: 'Böcekçil', iucnGlobal: 'DD', iucnEurope: '—', iucnMediterranean: '—' },
+  { id: 29, family: 'Vespertilionidae', scientificName: 'Myotis tschuliensis Kuzyakin, 1935', turkishName: 'Tschuli Myotis', diet: 'Böcekçil', iucnGlobal: 'DD', iucnEurope: '—', iucnMediterranean: '—' },
+  { id: 30, family: 'Vespertilionidae', scientificName: 'Myotis bechsteini (Kuhl, 1817)', turkishName: 'Büyükkulaklı Yarasa', diet: 'Böcekçil', iucnGlobal: 'NT', iucnEurope: 'VU', iucnMediterranean: 'NT' },
+  { id: 31, family: 'Vespertilionidae', scientificName: 'Myotis myotis (Borkhausen, 1797)', turkishName: 'Farekulaklı Büyük Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'LC' },
+  { id: 32, family: 'Vespertilionidae', scientificName: 'Myotis blythii (Tomes, 1857)', turkishName: 'Farekulaklı Küçük Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'VU', iucnMediterranean: 'NT' },
+  { id: 33, family: 'Vespertilionidae', scientificName: 'Myotis daubentoni (Kuhl, 1817)', turkishName: 'Farekulaklı Su Yarasası', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'LC' },
+  { id: 34, family: 'Vespertilionidae', scientificName: 'Myotis alcathoe Von Helversen & Heller, 2001', turkishName: 'Balkan Bıyıklı Yarasası', diet: 'Böcekçil', iucnGlobal: 'DD', iucnEurope: 'NT', iucnMediterranean: 'DD' },
+  { id: 35, family: 'Vespertilionidae', scientificName: 'Myotis schaubi Kormos, 1934', turkishName: 'İran Saçaklı Yarasası', diet: 'Böcekçil', iucnGlobal: 'DD', iucnEurope: '—', iucnMediterranean: 'DD' },
+  { id: 36, family: 'Vespertilionidae', scientificName: 'Myotis nipalensis (Dobson, 1871)', turkishName: 'Nepal Bıyıklı Yarasası', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: '—', iucnMediterranean: 'NA' },
+  { id: 37, family: 'Vespertilionidae', scientificName: 'Myotis capaccinii (Bonaparte, 1837)', turkishName: 'Uzunparmaklı Yarasa', diet: 'Böcekçil', iucnGlobal: 'VU', iucnEurope: 'VU', iucnMediterranean: 'VU' },
+  // 4. Emballonuridae
+  { id: 38, family: 'Emballonuridae', scientificName: 'Taphozous nudiventris (Cretzschmar, 1830)', turkishName: 'Çıplakkarınlı Mezar Yarasası', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: '—', iucnMediterranean: 'LC' },
+  // 5. Miniopteridae
+  { id: 39, family: 'Miniopteridae', scientificName: 'Miniopterus schreibersii (Kuhl, 1817)', turkishName: 'Uzunkanatlı Yarasa', diet: 'Böcekçil', iucnGlobal: 'VU', iucnEurope: 'VU', iucnMediterranean: 'VU' },
+  // 6. Molossidae
+  { id: 40, family: 'Molossidae', scientificName: 'Tadarida teniotis (Rafinesque, 1814)', turkishName: 'Kuyruklu Yarasa', diet: 'Böcekçil', iucnGlobal: 'LC', iucnEurope: 'LC', iucnMediterranean: 'LC' },
 ]
+
 
 const batGallery: LightboxImage[] = [
   {
@@ -99,6 +116,60 @@ const batGallery: LightboxImage[] = [
   },
 ]
 
+
+function renderIucnBadge(status: string) {
+  const s = status.trim().toUpperCase()
+  let bg = '#f0f0f0'
+  let color = '#555'
+  let isColored = false
+
+  if (s === 'CR') {
+    bg = '#fde8e8'
+    color = '#e61b23'
+    isColored = true
+  } else if (s === 'EN') {
+    bg = '#fdecd8'
+    color = '#d9534f'
+    isColored = true
+  } else if (s === 'VU') {
+    bg = '#fef3e2'
+    color = '#f0ad4e'
+    isColored = true
+  } else if (s === 'NT') {
+    bg = '#fef9e7'
+    color = '#b78103'
+    isColored = true
+  } else if (s === 'LC') {
+    bg = '#e8f5e9'
+    color = '#27ae60'
+    isColored = true
+  } else {
+    // DD, NA, — (renk vermene gerek yok)
+    bg = '#f5f5f5'
+    color = '#777'
+  }
+
+  return (
+    <span
+      style={{
+        display: 'inline-block',
+        minWidth: '32px',
+        textAlign: 'center',
+        padding: '2px 7px',
+        borderRadius: '4px',
+        fontSize: '11px',
+        fontWeight: isColored ? 700 : 500,
+        background: bg,
+        color: color,
+        border: isColored ? `1px solid ${color}33` : '1px solid #e0e0e0',
+      }}
+      title={s === 'CR' ? 'Kritik (CR)' : s === 'EN' ? 'Tehlikede (EN)' : s === 'VU' ? 'Hassas (VU)' : s === 'NT' ? 'Tehdide Yakın (NT)' : s === 'LC' ? 'Düşük Risk (LC)' : s === 'DD' ? 'Yetersiz Veri (DD)' : s === 'NA' ? 'Değerlendirmeye Uygun Değil (NA)' : 'Veri Yok'}
+    >
+      {status}
+    </span>
+  )
+}
+
 export default function Yarasalar() {
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | null>(null)
   const [speciesSearch, setSpeciesSearch] = useState('')
@@ -107,10 +178,10 @@ export default function Yarasalar() {
   const filteredSpecies = useMemo(() => {
     const q = speciesSearch.trim().toLowerCase()
     if (!q) return ALL_BAT_SPECIES
-    return ALL_BAT_SPECIES.filter(([fam, sci, tr]) =>
-      fam.toLowerCase().includes(q) ||
-      sci.toLowerCase().includes(q) ||
-      tr.toLowerCase().includes(q)
+    return ALL_BAT_SPECIES.filter(s =>
+      s.family.toLowerCase().includes(q) ||
+      s.scientificName.toLowerCase().includes(q) ||
+      s.turkishName.toLowerCase().includes(q)
     )
   }, [speciesSearch])
 
@@ -302,7 +373,7 @@ export default function Yarasalar() {
               <div className="p-3 rounded-3 mb-3" style={{ background: '#f5e6e6', borderLeft: '4px solid #e61b23' }}>
                 <p className="mb-0" style={{ fontSize: '14px' }}>
                   <i className="bi bi-info-circle me-2" style={{ color: '#e61b23' }} />
-                  Güncel değerlendirmelere göre ülkemizde yaklaşık <strong>39 yarasa türü</strong> yayılış göstermekte olup bu türlerin büyük çoğunluğu Rhinolophidae ve Vespertilionidae familyalarına aittir (Özkurt ve Bulut, 2020). Son yapılan çalışmalar ve değerlendirmeler sonucunda tür sayısı <strong>kesin olarak 41'e güncellenmiştir</strong> (Sözen ve Çolak, 2025).
+                  Güncel değerlendirmelere göre ülkemizde <strong>40 yarasa türü</strong> yayılış göstermekte olup bu türlerin büyük çoğunluğu Rhinolophidae ve Vespertilionidae familyalarına aittir (Özkurt ve Bulut, 2020).
                 </p>
               </div>
               <div className="p-3 rounded-3" style={{ background: '#fff', border: '1px solid #f0e0e0' }}>
@@ -317,9 +388,9 @@ export default function Yarasalar() {
             <div className="col-lg-4">
               <div className="d-flex flex-column gap-3 h-100">
                 {[
-                  { num: '41', label: 'Kayıtlı Tür', sub: 'Sözen & Çolak, 2025', icon: 'bi-collection' },
-                  { num: '4', label: 'Familya', sub: 'Rhinolophidae, Vespertilionidae, Miniopteridae, Molossidae', icon: 'bi-diagram-3' },
-                  { num: '%97', label: 'Böcekçil', sub: 'Yalnızca 1 tür meyve yer (R. aegyptiacus)', icon: 'bi-bug' },
+                  { num: '40', label: 'Kayıtlı Tür', sub: 'Türkiye Chiroptera Faunası', icon: 'bi-collection' },
+                  { num: '6', label: 'Familya', sub: 'Pteropodidae, Rhinolophidae, Vespertilionidae, Emballonuridae, Miniopteridae, Molossidae', icon: 'bi-diagram-3' },
+                  { num: '%97', label: 'Böcekçil', sub: <>Yalnızca 1 tür meyve yer (<em>Rousettus aegyptiacus</em>)</>, icon: 'bi-bug' },
                   { num: '5', label: 'Koruma Altında', sub: 'EN + VU + NT statüsünde tür', icon: 'bi-shield-check' },
                 ].map((item, i) => (
                   <div key={i} className="hover-card d-flex align-items-center gap-3 p-3 rounded-3" style={{ background: '#1a1a1a', flex: 1 }}>
@@ -336,16 +407,17 @@ export default function Yarasalar() {
               </div>
             </div>
           </div>
-
           {/* Familya kartları */}
           <div className="row gy-3 mb-4">
             {[
-              { fam: 'Rhinolophidae', icon: 'bi-soundwave', renk: '#e61b23', ozellik: 'Geniş bantlı CF ekolokasyon; karakteristik burun çıkıntısı', turler: 'R. ferrumequinum, R. hipposideros, R. euryale, R. mehelyi, R. blasii' },
-              { fam: 'Vespertilionidae', icon: 'bi-collection-fill', renk: '#2d6a2d', ozellik: 'En geniş familya; farklı habitat tercihleri', turler: 'Myotis myotis, Pipistrellus spp., Nyctalus spp., Plecotus spp.' },
-              { fam: 'Miniopteridae', icon: 'bi-wind', renk: '#e67e22', ozellik: 'Uzun kanat; büyük koloniler', turler: 'Miniopterus schreibersii' },
               { fam: 'Pteropodidae', icon: 'bi-flower1', renk: '#8e44ad', ozellik: 'Meyve ve nektar beslenimi; gündüz görüşü', turler: 'Rousettus aegyptiacus (tek meyve yarasası)' },
+              { fam: 'Rhinolophidae', icon: 'bi-soundwave', renk: '#e61b23', ozellik: 'Geniş bantlı CF ekolokasyon; karakteristik burun çıkıntısı', turler: 'R. ferrumequinum, R. hipposideros, R. euryale, R. mehelyi, R. blasii' },
+              { fam: 'Vespertilionidae', icon: 'bi-collection-fill', renk: '#2d6a2d', ozellik: 'En geniş familya; farklı habitat tercihleri (31 tür)', turler: 'Myotis spp., Pipistrellus spp., Nyctalus spp., Plecotus spp.' },
+              { fam: 'Emballonuridae', icon: 'bi-shield', renk: '#16a085', ozellik: 'Çıplak kuyruk ucu; tarihi yapılar ve çatlaklar', turler: 'Taphozous nudiventris' },
+              { fam: 'Miniopteridae', icon: 'bi-wind', renk: '#e67e22', ozellik: 'Uzun kanat; mağaralarda büyük koloniler', turler: 'Miniopterus schreibersii' },
+              { fam: 'Molossidae', icon: 'bi-lightning', renk: '#2980b9', ozellik: 'Serbest kuyruk; yüksek irtifada hızlı uçuş', turler: 'Tadarida teniotis' },
             ].map((item, i) => (
-              <div key={i} className="col-lg-3 col-md-6">
+              <div key={i} className="col-lg-4 col-md-6">
                 <div className="hover-card h-100 p-3 rounded-3" style={{ background: '#fff', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', borderTop: `3px solid ${item.renk}` }}>
                   <div className="d-flex align-items-center gap-2 mb-2">
                     <i className={`bi ${item.icon}`} style={{ color: item.renk, fontSize: '18px' }} />
@@ -365,7 +437,7 @@ export default function Yarasalar() {
                 <h5 className="mb-1" style={{ color: '#e61b23', fontWeight: 700 }}>
                   <i className="bi bi-list-ul me-2" />Türkiye'nin Tüm Yarasa Türleri
                 </h5>
-                <span style={{ fontSize: '12px', color: '#888' }}>Özkurt ve Bulut (2020); Sözen ve Çolak (2025)</span>
+                <span style={{ fontSize: '12px', color: '#888' }}>Özkurt ve Bulut (2020)</span>
               </div>
 
               {/* Arama Kutusu */}
@@ -425,39 +497,37 @@ export default function Yarasalar() {
               <table className="table table-sm align-middle mb-0" style={{ fontSize: '13px' }}>
                 <thead style={{ background: '#1a1a1a', color: '#fff' }}>
                   <tr>
-                    <th style={{ padding: '10px 14px' }}>Familya</th>
-                    <th style={{ padding: '10px 14px' }}>Bilimsel Ad</th>
-                    <th style={{ padding: '10px 14px' }}>Türkçe Ad</th>
-                    <th style={{ padding: '10px 14px', textAlign: 'center' }}>Beslenme</th>
-                    <th style={{ padding: '10px 14px', textAlign: 'center' }}>IUCN</th>
+                    <th style={{ padding: '10px 10px', width: '40px', textAlign: 'center' }}>#</th>
+                    <th style={{ padding: '10px 12px' }}>Familya</th>
+                    <th style={{ padding: '10px 12px' }}>Bilimsel Adı</th>
+                    <th style={{ padding: '10px 12px' }}>Türkçe Adı</th>
+                    <th style={{ padding: '10px 10px', textAlign: 'center' }}>Beslenme</th>
+                    <th style={{ padding: '10px 8px', textAlign: 'center' }}>Global</th>
+                    <th style={{ padding: '10px 8px', textAlign: 'center' }}>Avrupa</th>
+                    <th style={{ padding: '10px 8px', textAlign: 'center' }}>Akdeniz</th>
                   </tr>
                 </thead>
                 <tbody>
                   {displayedSpecies.length > 0 ? (
-                    displayedSpecies.map((row, i) => {
-                      const iucnColor = row[4] === 'EN' ? '#c0392b' : row[4] === 'VU' ? '#e67e22' : row[4] === 'NT' ? '#f39c12' : row[4] === 'DD' ? '#7f8c8d' : '#2d6a2d'
-                      const iucnBg = row[4] === 'EN' ? '#fdecea' : row[4] === 'VU' ? '#fef3e2' : row[4] === 'NT' ? '#fef9e7' : row[4] === 'DD' ? '#f2f4f4' : '#e8f5e9'
-                      return (
-                        <tr key={row[1]} style={{ background: i % 2 === 0 ? '#fff' : '#fafafa' }}>
-                          <td style={{ padding: '9px 14px', color: '#888', fontSize: '12px', fontWeight: 500 }}>{row[0]}</td>
-                          <td style={{ padding: '9px 14px', fontStyle: 'italic', color: '#1a1a1a', fontWeight: 500 }}>{row[1]}</td>
-                          <td style={{ padding: '9px 14px', color: '#444' }}>{row[2]}</td>
-                          <td style={{ padding: '9px 14px', textAlign: 'center' }}>
-                            <span style={{ background: row[3] === 'M' ? '#f5e6e6' : '#e8f5e9', color: row[3] === 'M' ? '#e61b23' : '#2d6a2d', padding: '3px 10px', borderRadius: '50px', fontSize: '11px', fontWeight: 600 }}>
-                              {row[3] === 'B' ? 'Böcekçil' : 'Meyve'}
-                            </span>
-                          </td>
-                          <td style={{ padding: '9px 14px', textAlign: 'center' }}>
-                            <span style={{ background: iucnBg, color: iucnColor, padding: '3px 10px', borderRadius: '50px', fontSize: '11px', fontWeight: 700 }}>
-                              {row[4]}
-                            </span>
-                          </td>
-                        </tr>
-                      )
-                    })
+                    displayedSpecies.map((row, i) => (
+                      <tr key={row.id} style={{ background: i % 2 === 0 ? '#fff' : '#fafafa' }}>
+                        <td style={{ padding: '9px 10px', textAlign: 'center', color: '#aaa', fontSize: '12px', fontWeight: 600 }}>{row.id}</td>
+                        <td style={{ padding: '9px 12px', color: '#777', fontSize: '12px', fontWeight: 600 }}>{row.family}</td>
+                        <td style={{ padding: '9px 12px', fontStyle: 'italic', color: '#1a1a1a', fontWeight: 500 }}>{row.scientificName}</td>
+                        <td style={{ padding: '9px 12px', color: '#333' }}>{row.turkishName}</td>
+                        <td style={{ padding: '9px 10px', textAlign: 'center' }}>
+                          <span style={{ background: row.diet === 'Meyve' ? '#f5e6e6' : '#e8f5e9', color: row.diet === 'Meyve' ? '#e61b23' : '#27ae60', padding: '3px 10px', borderRadius: '50px', fontSize: '11px', fontWeight: 600 }}>
+                            {row.diet}
+                          </span>
+                        </td>
+                        <td style={{ padding: '9px 8px', textAlign: 'center' }}>{renderIucnBadge(row.iucnGlobal)}</td>
+                        <td style={{ padding: '9px 8px', textAlign: 'center' }}>{renderIucnBadge(row.iucnEurope)}</td>
+                        <td style={{ padding: '9px 8px', textAlign: 'center' }}>{renderIucnBadge(row.iucnMediterranean)}</td>
+                      </tr>
+                    ))
                   ) : (
                     <tr>
-                      <td colSpan={5} className="text-center py-4">
+                      <td colSpan={8} className="text-center py-4">
                         <div className="d-flex flex-column align-items-center justify-content-center text-muted">
                           <i className="bi bi-search mb-2" style={{ fontSize: '24px', color: '#bbb' }} />
                           <p className="mb-2" style={{ fontSize: '14px', color: '#555' }}>
@@ -477,6 +547,25 @@ export default function Yarasalar() {
                   )}
                 </tbody>
               </table>
+            </div>
+
+            {/* IUCN Sıralama & Açıklama Notu */}
+            <div className="p-3 mt-3 rounded-2" style={{ background: '#fdf8f8', border: '1px solid #f0e0e0', fontSize: '12px', color: '#555' }}>
+              <div className="d-flex align-items-center gap-2 flex-wrap mb-1">
+                <strong style={{ color: '#1a1a1a' }}>IUCN Tehdit Sıralaması:</strong>
+                <span className="badge bg-danger">CR (Kritik)</span>
+                <span>&gt;</span>
+                <span className="badge" style={{ background: '#d9534f', color: '#fff' }}>EN (Tehlikede)</span>
+                <span>&gt;</span>
+                <span className="badge" style={{ background: '#f0ad4e', color: '#fff' }}>VU (Hassas)</span>
+                <span>&gt;</span>
+                <span className="badge" style={{ background: '#b78103', color: '#fff' }}>NT (Tehdide Yakın)</span>
+                <span>&gt;</span>
+                <span className="badge" style={{ background: '#27ae60', color: '#fff' }}>LC (Düşük Risk)</span>
+              </div>
+              <div className="text-muted" style={{ fontSize: '11.5px', marginTop: '4px' }}>
+                DD (Data Deficient): Yetersiz Veri · NA (Not Applicable): Değerlendirmeye Uygun Değil · —: Veri Yok
+              </div>
             </div>
 
             {/* Hepsini Gör / Daha Az Göster Butonu */}
@@ -589,7 +678,7 @@ export default function Yarasalar() {
               Yarasalar hakkında en yaygın endişe, bize zarar verecekleri, kan emdikleri korkusudur. Bu endişe büyük ölçüde yanlış bilgilere ve eski inanışlara dayanır. <strong>Türkiye'de yaşayan hiçbir yarasa türü kan emmez.</strong> Bilimsel veriler bize başka bir şey söylüyor: Yarasalar bir gecede 3.000 ila 4.000 adet böcek yiyerek ekolojik kontrolörlerdir. Ayrıca doğru anlaşıldığında insanlardan kaçınan, son derece hassas ekolojik paydaşlarımızdır.
             </p>
             <p className="mb-0" style={{ fontSize: '14px', color: '#555' }}>
-              Halk arasında yarasaların kan emdiğine dair yaygın bir inanış vardır. Bu, Hollywood ve yabancı film ve dizi kaynaklı bir yanılgıdır. Dünyada gerçekten kanla beslenen yalnızca <strong>3 yarasa türü</strong> vardır, hepsi de Orta ve Güney Amerika'da yaşar (vampir yarasaları — <em>Desmodontinae</em>). Türkiye'deki 41 türün hiçbiri kan emmez; 40'ı böcek yer, 1'i (<em>Rousettus aegyptiacus</em>) meyve yer (Özkurt ve Bulut, 2020; Sözen ve Çolak, 2025).
+              Halk arasında yarasaların kan emdiğine dair yaygın bir inanış vardır. Bu, Hollywood ve yabancı film ve dizi kaynaklı bir yanılgıdır. Dünyada gerçekten kanla beslenen yalnızca <strong>3 yarasa türü</strong> vardır, hepsi de Orta ve Güney Amerika'da yaşar (vampir yarasaları — <em>Desmodontinae</em>). Türkiye'deki 40 türün hiçbiri kan emmez; 39'u böcek yer, 1'i (<em>Rousettus aegyptiacus</em>) meyve yer (Özkurt ve Bulut, 2020).
             </p>
           </div>
 
@@ -647,7 +736,7 @@ export default function Yarasalar() {
               },
               {
                 yanilgi: '"Kanla beslenir"',
-                gercek: 'Türkiye\'de yaşayan 39 yarasa türünden hiçbiri kan emmez. 38\'i böcekçil, 1\'i (Mısır meyve yarasası) meyve yer. Dünyada gerçekten kanla beslenen sadece 3 tür vardır — hepsi Latin Amerika\'ya özgü Desmodontinae alt familyasına aittir: Desmodus rotundus, Diphylla ecaudata ve Diaemus youngi (Greenhall & Schmidt, 1988; Brown & Escobar, 2023).'
+                gercek: 'Türkiye\'de yaşayan 40 yarasa türünden hiçbiri kan emmez. 39\'u böcekçil, 1\'i (Mısır meyve yarasası) meyve yer. Dünyada gerçekten kanla beslenen sadece 3 tür vardır — hepsi Latin Amerika\'ya özgü Desmodontinae alt familyasına aittir: Desmodus rotundus, Diphylla ecaudata ve Diaemus youngi (Greenhall & Schmidt, 1988; Brown & Escobar, 2023).'
               },
               {
                 yanilgi: '"Görmezler, kördürler"',
@@ -746,9 +835,9 @@ export default function Yarasalar() {
               </p>
             </div>
             {[
-              { item: batGallery[2], title: 'Karstik Mağara Girişi', loc: 'Kırşehir doğal tünek kanyonu' },
-              { item: batGallery[3], title: 'Mağara İçi Tavan Kaya Çatlakları', loc: 'Koloni kış uykusu ve tünek boşluğu' },
-              { item: batGallery[4], title: 'Tünekte Dinlenen Yarasa', loc: 'Doğal tünek mikrohabitatı' },
+              { item: batGallery[2], title: 'Eski Yapılarda Tünek Kontrolü', loc: 'Eski yapılarda tünek kontrolü' },
+              { item: batGallery[3], title: 'Tarihi Yapılarda Tünek ve Koloni Kontrolleri', loc: 'Tarihi yapılarda tünek ve koloni kontrolleri' },
+              { item: batGallery[4], title: 'Doğal Mağara Tüneği – Kış Kolonisi', loc: 'Doğal Mağara Tüneği – Kış Kolonisi' },
             ].map((p, i) => (
               <div key={i} className="col-lg-4">
                 <div
@@ -866,7 +955,6 @@ export default function Yarasalar() {
                 { ref: 'Rocha, R., Aziz, S.A., Brook, C.E. ve ark. (2021).', title: 'Bat conservation and zoonotic disease risk: a research agenda to prevent misguided persecution in the aftermath of COVID-19.', journal: 'Animal Conservation', detail: '24(3): 303–311.', doi: 'https://doi.org/10.1111/acv.12636' },
                 { ref: 'Russo, D. & Ancillotto, L. (2015).', title: 'Sensitivity of bats to urbanization: a review.', journal: 'Mammalian Biology', detail: '80: 205–212.', doi: 'https://doi.org/10.1016/j.mambio.2014.10.003' },
                 { ref: 'Simmons, N.B. (2005).', title: 'Order Chiroptera. In: Wilson, D.E. & Reeder, D.M. (Eds.) Mammal Species of the World (3rd ed., pp. 312–529).', journal: 'Johns Hopkins University Press', detail: 'Baltimore.' },
-                { ref: 'Sözen, M. & Çolak, F. (2025).', title: 'An updated checklist of the mammals of Türkiye.', journal: 'Turkish Journal of Zoology', detail: '49(5): 252–280.', doi: 'https://doi.org/10.55730/1300-0179.3232' },
                 { ref: 'Stone, E.L., Jones, G. & Harris, S. (2009).', title: 'Street lighting disturbs commuting bats.', journal: 'Current Biology', detail: '19: 1123–1127.', doi: 'https://doi.org/10.1016/j.cub.2009.05.058' },
                 { ref: 'Toyran, K. & Gencer, F. (2023).', title: 'New Data on the Bat Fauna (Mammalia: Chiroptera) from the Eastern Anatolia (Bitlis, Turkey).', journal: 'Kahramanmaraş Sütçü İmam Üniversitesi Tarım ve Doğa Dergisi', detail: '26(2): 254–262.' },
                 { ref: 'Wilson, D.E. & Reeder, D.M. (Eds.) (2005).', title: 'Mammal Species of the World: A Taxonomic and Geographic Reference (3rd ed.).', journal: 'Johns Hopkins University Press', detail: 'Baltimore.' },
@@ -900,7 +988,7 @@ export default function Yarasalar() {
                 </p>
                 <div className="row g-3 justify-content-center">
                   {[
-                    { icon: 'bi-envelope', label: 'E-posta', val: 'yarasagozlemtoplulugu@gmail.com', href: 'mailto:yarasagozlemtoplulugu@gmail.com' },
+                    { icon: 'bi-envelope', label: 'E-posta', val: 'yarasaarastirmalari@gmail.com', href: 'mailto:yarasaarastirmalari@gmail.com' },
                     { icon: 'bi-telephone', label: 'Telefon', val: '0531 030 66 93', href: 'tel:+905310306693' },
                     { icon: 'bi-instagram', label: 'Instagram', val: '@yarasagzlem', href: 'https://instagram.com/yarasagzlem' },
                   ].map((item, i) => (

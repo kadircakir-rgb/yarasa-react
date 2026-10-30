@@ -35,21 +35,21 @@ const team = [
 const officialPublications: LightboxImage[] = [
   {
     src: '/image/hakkimizda/tunek-posteri.webp',
-    title: 'Tünek Alanları İçin Bilgilendirme ve Koruma Posteri (50x70 cm)',
+    title: 'Tünek Alanları İçin Bilgilendirme ve Koruma Posteri',
     tag: 'Resmi Poster',
     date: '2026',
     caption: 'Derneğimiz tarafından hazırlanan, tünek alanlarının ekolojik önemi ve yasal koruma statüsünü anlatan resmi 50x70 poster çalışması.',
   },
   {
     src: '/image/hakkimizda/yarasa-brosuru-1.webp',
-    title: 'Yarasa Bilgilendirme ve Farkındalık Broşürü — Ön Yüz',
+    title: 'Yarasa Bilgilendirme ve Farkındalık Broşürü',
     tag: 'Eğitim Yayını',
     date: '2026',
     caption: 'Halk sağlığı, ekolojik faydalar ve yarasalar hakkındaki doğru bilinen yanlışları ele alan resmi broşürümüzün birinci sayfası.',
   },
   {
     src: '/image/hakkimizda/yarasa-brosuru-2.webp',
-    title: 'Yarasa Bilgilendirme ve Farkındalık Broşürü — Arka Yüz',
+    title: 'Yarasa Koruma ve Tür Rehberi Broşürü',
     tag: 'Eğitim Yayını',
     date: '2026',
     caption: 'Yarasa türleri, tünek koruma kuralları ve vatandaş bilimi iletişim kanallarını içeren resmi broşürümüzün ikinci sayfası.',
@@ -120,7 +120,7 @@ export default function About() {
               </h2>
               <p className="mb-3" style={{ lineHeight: '1.8' }}>
                 {isTr
-                  ? 'Yarasa Araştırmaları Derneği, Kırşehir Ahi Evran Üniversitesi öğretim üyeleri, doğa araştırmacıları ve öğrencilerinin öncülüğünde kurulmuş; yarasa biyolojisi, akustik tür tanımlama ve kentsel ekoloji alanında bilimsel faaliyet yürüten resmi bir sivil toplum kuruluşudur.'
+                  ? 'Yarasa Araştırmaları Derneği; doğa araştırmacıları, akademisyenler ve biyologların öncülüğünde kurulmuş; yarasa biyolojisi, akustik tür tanımlama ve kentsel ekoloji alanında bilimsel faaliyet yürüten bağımsız bir sivil toplum kuruluşudur.'
                   : 'The Bat Research Association is an official scientific body founded by faculty members of Kırşehir Ahi Evran University, nature researchers, and student scientists.'}
               </p>
               <p className="mb-4" style={{ lineHeight: '1.8' }}>

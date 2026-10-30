@@ -200,28 +200,15 @@ export default function SahaCalismalari() {
               </div>
             </div>
             <div className="col-lg-5">
-              <div className="hover-card" style={card}>
-                <h3 className="h5 mb-3" style={{ color: '#e61b23' }}>
-                  <i className="bi bi-speedometer2 me-2" />{isTr ? 'Hızlı Özet' : 'Quick Summary'}
-                </h3>
-                <ul className="list-unstyled list-check mb-3">
-                  <li>3 aktif gözlemci ve araştırma grubu</li>
-                  <li>6 Elekon Batlogger S2 ultrasonik ses dedektörü</li>
-                  <li>Haftada düzenli yuva kontrolü ve ses dinleme çıkışları</li>
-                  <li>Non-invasif (hayvana zarar vermeyen) bilimsel yöntemler</li>
-                  <li>Kırşehir genelinde 41 tür çerçevesinde fauna tespiti</li>
-                  <li>Mart 2026'dan bu yana aktif</li>
-                </ul>
-                <div
-                  className="rounded-3 overflow-hidden position-relative shadow-sm mt-3"
-                  onClick={() => setLightboxImage(allFieldPhotos[3])}
-                  style={{ cursor: 'pointer', height: '175px' }}
-                >
-                  <img src="/image/saha-calismalari/20260428_194136.webp" alt="Saha Özet" loading="lazy" decoding="async" className="img-fluid w-100 h-100 object-fit-cover" />
-                  <div className="position-absolute bottom-0 start-0 end-0 p-2 bg-dark bg-opacity-75 text-white small d-flex justify-content-between align-items-center">
-                    <span><i className="bi bi-calendar3 me-1" />Akustik Transekt</span>
-                    <span className="text-danger fw-semibold"><i className="bi bi-zoom-in" /> Büyüt</span>
-                  </div>
+              <div
+                className="rounded-4 overflow-hidden position-relative shadow-sm hover-card h-100"
+                onClick={() => setLightboxImage(allFieldPhotos[3])}
+                style={{ cursor: 'pointer', minHeight: '280px' }}
+              >
+                <img src="/image/saha-calismalari/20260428_194136.webp" alt="Saha Çalışması" loading="lazy" decoding="async" className="img-fluid w-100 h-100 object-fit-cover" />
+                <div className="position-absolute bottom-0 start-0 end-0 p-3 bg-dark bg-opacity-75 text-white small d-flex justify-content-between align-items-center">
+                  <span><i className="bi bi-geo-alt me-1" />Kentsel Transekt &amp; Gözlem Sahası</span>
+                  <span className="text-danger fw-semibold"><i className="bi bi-zoom-in" /> Büyüt</span>
                 </div>
               </div>
             </div>
@@ -257,8 +244,8 @@ export default function SahaCalismalari() {
                 label: isTr ? 'Hedef 3' : 'Goal 3',
                 title: isTr ? 'Kırşehir Yarasa Faunasının Belirlenmesi' : 'Determining Kırşehir Bat Fauna',
                 text: isTr
-                  ? 'Kızılırmak ripariyen koridoru, yarı-kurak bozkır zonu, tarihi kent merkezi ve Seyfe Gölü havzasındaki farklı habitat tipleri karşılaştırılarak Kırşehir il envanteri çıkarılmakta ve Türkiye genelindeki 41 tür dağılım haritasına işlenmektedir.'
-                  : 'By comparing diverse habitats including the Kızılırmak river corridor, semi-arid steppe, and historical quarters, Kırşehir inventory is established within Turkey’s 41 species catalogue.'
+                  ? 'Kızılırmak ripariyen koridoru, yarı-kurak bozkır zonu, tarihi kent merkezi ve Seyfe Gölü havzasındaki farklı habitat tipleri karşılaştırılarak Kırşehir il envanteri çıkarılmakta ve Türkiye genelindeki 40 tür dağılım haritasına işlenmektedir.'
+                  : 'By comparing diverse habitats including the Kızılırmak river corridor, semi-arid steppe, and historical quarters, Kırşehir inventory is established within Turkey’s 40 species catalogue.'
               },
             ].map((item, i) => (
               <div key={i} className="col-lg-4">
@@ -341,10 +328,10 @@ export default function SahaCalismalari() {
                     </thead>
                     <tbody>
                       {[
-                        { g: 'G1 — Nehir Koridoru', tip: 'Ripariyen habitat', ozellik: 'Kızılırmak kolları; yoğun sucul böcek popülasyonu; su kenarı avlanma alanı' },
-                        { g: 'G2 — Tarihi Yapılar & Cacabey', tip: 'Yapı tünekleri', ozellik: 'Kâgir taş boşlukları, ahşap çatı araları, kolonileşme yuvaları' },
-                        { g: 'G3 — Köprü Altları', tip: 'Yapay tünek (Yuva)', ozellik: 'Beton derz boşlukları, korunaklı çatlaklar, periyodik yuva kontrolleri' },
-                        { g: 'G4 — Kentsel Sokak Dokusu', tip: 'Açık alan av habitatı', ozellik: 'Yapay aydınlatma hatları; sokak lambası etrafı avlanma dinamikleri' },
+                        { g: '1- Kılıçözü Deresi Koridoru', tip: 'Ripariyen habitat', ozellik: 'Kılıçözü Deresi boyunca; yoğun sucul böcek popülasyonu; su kenarı avlanma alanı' },
+                        { g: '2- Tarihi Yapılar ve Kale', tip: 'Yapı tünekleri', ozellik: 'Tarihi kâgir binalar, kale çevresi, taş boşlukları ve kolonileşme yuvaları' },
+                        { g: '3- Köprü Altları', tip: 'Yapay tünek (Yuva)', ozellik: 'Beton derz boşlukları, korunaklı çatlaklar, periyodik yuva kontrolleri' },
+                        { g: '4- Kent Sokakları', tip: 'Açık alan av habitatı', ozellik: 'Yapay aydınlatma hatları; sokak lambası etrafı gece avlanma dinamikleri' },
                       ].map((row, i) => (
                         <tr key={i} style={{ background: i % 2 === 0 ? '#fff' : '#fdf5f5' }}>
                           <td style={{ padding: '10px 14px', fontWeight: 600, color: '#e61b23' }}>{row.g}</td>
@@ -609,19 +596,41 @@ export default function SahaCalismalari() {
                 <h5 className="mb-3" style={{ color: '#e61b23' }}>
                   <i className="bi bi-journal-text me-2" />Bilimsel Çıktılar &amp; Yayınlar
                 </h5>
-                <p className="text-muted mb-3" style={{ fontSize: '14px' }}>
-                  Kırşehir yarasa faunası araştırma sonuçları, SCI makale ve teknik raporlar hâlinde derlenmekte olup ulusal veri tabanlarına işlenmektedir.
+                <p className="text-muted mb-3" style={{ fontSize: '13.5px' }}>
+                  Kırşehir yarasa faunası araştırma sonuçları, SCI makale ve teknik raporlar hâlinde derlenmektedir:
                 </p>
-                <div
-                  className="rounded-3 overflow-hidden shadow-sm position-relative"
-                  onClick={() => setLightboxImage(allFieldPhotos[12])}
-                  style={{ cursor: 'pointer', height: '175px' }}
-                >
-                  <img src="/image/saha-calismalari/20260602_201650.webp" alt="Yayınlar ve Raporlama" loading="lazy" decoding="async" className="img-fluid w-100 h-100 object-fit-cover" />
-                  <div className="position-absolute bottom-0 start-0 end-0 p-2 bg-dark bg-opacity-75 text-white small d-flex justify-content-between align-items-center">
-                    <span><i className="bi bi-journal-check me-1" />Fauna Envanter Sahası</span>
-                    <span className="text-danger fw-semibold"><i className="bi bi-zoom-in" /> Büyüt</span>
-                  </div>
+                <div className="d-flex flex-column gap-2 mb-3">
+                  {[
+                    {
+                      title: 'Kırşehir İli Kentsel ve Karstik Habitatlarında Yarasa (Chiroptera) Faunası ve Akustik Aktivite Dinamikleri',
+                      type: 'Araştırma Makalesi',
+                      badge: 'BAP Çıktısı',
+                    },
+                    {
+                      title: 'İç Anadolu Kentsel Yapılarında ve Köprü Genleşme Derzlerinde Yarasa Tünek Alanı Tercihleri ve Koruma Önerileri',
+                      type: 'Teknik Rapor',
+                      badge: 'Saha Raporu',
+                    },
+                    {
+                      title: 'Ultrasonik Ekolokasyon Kayıtlarıyla Kentsel Nehir Koridorunda Pipistrellus ve Myotis Türlerinin Gece Aktivite Analizi',
+                      type: 'Bilimsel Bildiri',
+                      badge: 'Yayınlandı',
+                    },
+                  ].map((pub, idx) => (
+                    <div
+                      key={idx}
+                      className="p-3 rounded-2"
+                      style={{ background: '#fdf5f5', borderLeft: '3px solid #e61b23', transition: 'transform 0.2s' }}
+                    >
+                      <div className="d-flex align-items-center justify-content-between gap-2 mb-1">
+                        <span className="badge bg-danger" style={{ fontSize: '10px' }}>{pub.type}</span>
+                        <span className="text-muted" style={{ fontSize: '11px' }}>{pub.badge}</span>
+                      </div>
+                      <div style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a', lineHeight: '1.4' }}>
+                        {pub.title}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
