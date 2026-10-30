@@ -1,3 +1,44 @@
+export const initialYayinlar: YayinItem[] = [
+  {
+    id: 'y1',
+    title: 'Kırşehir İli Kentsel ve Karstik Habitatlarında Yarasa (Chiroptera) Faunası ve Akustik Aktivite Dinamikleri',
+    type: 'Araştırma Makalesi',
+    badge: 'BAP Çıktısı',
+    authors: 'Yarasa Araştırmaları Derneği & BAP Proje Ekibi',
+    date: '2026',
+    journal: 'Kırşehir Ahi Evran Üniversitesi Bilimsel Araştırma Projeleri Birimi',
+    fileUrl: '/docs/Turkiye_Yarasalari_Bilgilendirme.docx',
+  },
+  {
+    id: 'y2',
+    title: 'İç Anadolu Kentsel Yapılarında ve Köprü Genleşme Derzlerinde Yarasa Tünek Alanı Tercihleri ve Koruma Önerileri',
+    type: 'Teknik Rapor',
+    badge: 'Saha Raporu',
+    authors: 'Araştırma ve İzleme Çalışma Grubu',
+    date: '2026',
+    journal: 'Kentsel Biyoçeşitlilik ve Tünek Ekolojisi Serisi, Rapor No: 2026/1',
+  },
+  {
+    id: 'y3',
+    title: 'Ultrasonik Ekolokasyon Kayıtlarıyla Kentsel Nehir Koridorunda Pipistrellus ve Myotis Türlerinin Gece Aktivite Analizi',
+    type: 'Bilimsel Bildiri',
+    badge: 'Yayınlandı',
+    authors: 'Topluluk Araştırmacıları',
+    date: '2026',
+    journal: 'Ulusal Ekoloji ve Biyoçeşitlilik Sempozyumu',
+  },
+  {
+    id: 'y4',
+    title: 'Türkiye Chiroptera Faunası ve 40 Yarasa Türünün Koruma Durumları Bilgilendirme Raporu',
+    type: 'Resmi Kılavuz',
+    badge: 'Bilgilendirme Dosyası',
+    authors: 'Yarasa Araştırmaları Derneği Bilim Kurulu',
+    date: '2026',
+    journal: 'T.C. Tarım ve Orman Bakanlığı & EUROBATS Standartları',
+    fileUrl: '/docs/Turkiye_Yarasalari_Bilgilendirme.docx',
+  },
+]
+
 import { create } from 'zustand'
 import { persist, createJSONStorage, type StateStorage } from 'zustand/middleware'
 
@@ -67,6 +108,18 @@ export interface GozlemItem {
   bildirim_tarihi: string
 }
 
+export interface YayinItem {
+  id: string
+  title: string
+  type: string
+  badge: string
+  authors?: string
+  date?: string
+  journal?: string
+  fileUrl?: string
+  doi?: string
+}
+
 export interface MesajItem {
   id: string
   name: string
@@ -84,6 +137,7 @@ interface AdminStore {
   gonulluler: GonulluItem[]
   gozlemler: GozlemItem[]
   mesajlar: MesajItem[]
+  yayinlar: YayinItem[]
   login: (email: string, password: string, remember: boolean) => boolean
   logout: () => void
   addPost: (post: Omit<BlogPost, 'id'>) => void
@@ -98,6 +152,9 @@ interface AdminStore {
   deleteGozlem: (id: string) => void
   addMesaj: (m: Omit<MesajItem, 'id' | 'tarih'>) => void
   deleteMesaj: (id: string) => void
+  addYayin: (y: Omit<YayinItem, 'id'>) => void
+  updateYayin: (id: string, y: Partial<YayinItem>) => void
+  deleteYayin: (id: string) => void
   importAllData: (data: Partial<AdminStore>) => void
 }
 
@@ -230,6 +287,28 @@ export const useAdminStore = create<AdminStore>()(
       gozlemler: initialGozlemler,
       mesajlar: initialMesajlar,
 
+      yayinlar: initialYayinlar,
+
+      addYayin: (y) => {
+        const yeni: YayinItem = {
+          ...y,
+          id: Date.now().toString(),
+        }
+        set(state => ({ yayinlar: [yeni, ...(state.yayinlar || [])] }))
+      },
+
+      updateYayin: (id, y) => {
+        set(state => ({
+          yayinlar: (state.yayinlar || []).map(item => item.id === id ? { ...item, ...y } : item)
+        }))
+      },
+
+      deleteYayin: (id) => {
+        set(state => ({
+          yayinlar: (state.yayinlar || []).filter(item => item.id !== id)
+        }))
+      },
+
       login: (email, password, remember) => {
         const cleanEmail = email.trim().toLowerCase()
         if (ADMIN_EMAILS.includes(cleanEmail) && password === ADMIN_PASSWORD) {
@@ -335,7 +414,7 @@ export const useAdminStore = create<AdminStore>()(
       },
     }),
     {
-      name: 'yad-admin-v9',
+      name: 'yad-admin-v10',
       storage: createJSONStorage(() => safeStorage),
       partialize: (state) => ({
         posts: state.posts,
@@ -343,6 +422,7 @@ export const useAdminStore = create<AdminStore>()(
         gonulluler: state.gonulluler,
         gozlemler: state.gozlemler,
         mesajlar: state.mesajlar,
+        yayinlar: state.yayinlar,
         isLoggedIn: state.isLoggedIn,
         remember: state.remember,
       }),
@@ -353,6 +433,7 @@ export const useAdminStore = create<AdminStore>()(
           if (!Array.isArray(state.gonulluler)) state.gonulluler = initialGonulluler
           if (!Array.isArray(state.gozlemler)) state.gozlemler = initialGozlemler
           if (!Array.isArray(state.mesajlar)) state.mesajlar = initialMesajlar
+          if (!Array.isArray(state.yayinlar) || state.yayinlar.length === 0) state.yayinlar = initialYayinlar
           if (state.remember === false) {
             state.isLoggedIn = false
           }

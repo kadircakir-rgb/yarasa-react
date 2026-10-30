@@ -67,7 +67,7 @@ export default function About() {
         title={isTr ? "Hakkımızda" : "About Us"}
         subtitle={isTr ? "Yarasa Araştırmaları Derneği — Bilimsel araştırma, koruma ve toplumsal farkındalık" : "Bat Research Association — Scientific research, conservation, and awareness"}
         crumb={isTr ? "Hakkımızda" : "About Us"}
-        bg="/image/hakkimizda/ekip-arazi-calismasi.webp"
+        bg="/image/saha-calismalari/20260602_201650.webp"
       />
 
       {/* ── TANITIM ── */}
@@ -78,16 +78,16 @@ export default function About() {
               <div
                 className="position-relative rounded-4 overflow-hidden shadow-lg hover-card"
                 onClick={() => setLightboxImage({
-                  src: '/image/hakkimizda/ekip-tarihi-yapi.webp',
-                  title: isTr ? 'Araştırma Ekibimiz Tarihi Yapı Tünek İncelemesinde' : 'Research Team Inspecting Historic Roost Sites',
-                  caption: isTr ? 'Kırşehir merkezinde tarihi kâgir yapılar ve Cacabey çevresinde gerçekleştirilen tünek tespit çalışması.' : 'Roost survey at historic masonry buildings in central Kırşehir.',
-                  tag: 'Kurumsal Saha',
-                  date: 'Nisan 2026'
+                  src: '/image/hakkimizda/dernek-etkinlik-toplanti.webp',
+                  title: isTr ? 'Yarasa Araştırmaları Derneği Araştırma ve Gözlem Ekibi' : 'Bat Research Association Study Team',
+                  caption: isTr ? 'Dernek yönetim kurulu, akademisyenler ve öğrenci gözlemcilerimizin katıldığı ortak bilgilendirme ve saha toplantısı.' : 'Joint orientation meeting of our board, researchers and student observers.',
+                  tag: 'Kurumsal Ekip',
+                  date: 'Bahar 2026'
                 })}
                 style={{ cursor: 'pointer' }}
               >
                 <img
-                  src="/image/hakkimizda/ekip-tarihi-yapi.webp"
+                  src="/image/hakkimizda/dernek-etkinlik-toplanti.webp"
                   alt="Yarasa Araştırmaları Derneği Ekibi"
                   loading="lazy"
                   decoding="async"
@@ -105,7 +105,7 @@ export default function About() {
                     color: '#fff',
                   }}
                 >
-                  <span className="badge bg-danger mb-1 me-2">{isTr ? 'Saha Ekibi' : 'Field Team'}</span>
+                  <span className="badge bg-danger mb-1 me-2">{isTr ? 'Araştırma Ekibimiz' : 'Research Team'}</span>
                   <span className="small text-white-50">{isTr ? 'Büyütmek için tıklayın' : 'Click to enlarge'} <i className="bi bi-zoom-in ms-1" /></span>
                 </div>
               </div>

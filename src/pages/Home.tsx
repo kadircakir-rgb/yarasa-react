@@ -75,7 +75,7 @@ const homeGalleryItems = [
     caption: 'GPS koordinatlı tam spektrum dedektörle kentsel alanda yüksek frekanslı ekolokasyon seslerinin kaydedilmesi.',
   },
   {
-    src: '/image/gonullu-ol/gonullu-saha-egitimi-1.webp',
+    src: '/image/gonullu-ol/gonullu-gece-gozlemi.webp',
     title: 'Gönüllü Gözlemci Oryantasyonu',
     tag: 'Toplum Bilimi',
     date: 'Mayıs 2026',
@@ -299,16 +299,18 @@ export default function Home() {
                 ].map((p, i) => (
                   <div key={i} className="col-lg-4 col-md-6">
                     <div className="card h-100 border-0 shadow-sm hover-card" style={{ borderRadius: '16px', overflow: 'hidden' }}>
-                      <div style={{ position: 'relative', height: '180px' }}>
+                      <div style={{ height: '180px', overflow: 'hidden' }}>
                         <img src={p.img} alt={p.title} loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        <span className="badge bg-danger position-absolute top-0 start-0 m-3 px-3 py-1" style={{ fontSize: '11px', borderRadius: '50px' }}>
-                          {p.tag}
-                        </span>
-                        <span className="badge bg-dark bg-opacity-75 position-absolute bottom-0 end-0 m-3 px-2 py-1" style={{ fontSize: '11px' }}>
-                          <i className="bi bi-calendar3 me-1" />{p.badge}
-                        </span>
                       </div>
                       <div className="card-body p-4 d-flex flex-column">
+                        <div className="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-1">
+                          <span className="badge bg-danger-subtle text-danger px-2 py-1" style={{ fontSize: '11px', fontWeight: 600 }}>
+                            {p.tag}
+                          </span>
+                          <span className="badge bg-warning-subtle text-dark border border-warning px-2 py-1" style={{ fontSize: '11px', fontWeight: 600 }}>
+                            <i className="bi bi-clock-history me-1" />{p.badge}
+                          </span>
+                        </div>
                         <div className="text-danger small fw-bold text-uppercase mb-1" style={{ letterSpacing: '0.5px' }}>{p.lead}</div>
                         <h4 className="card-title h6 fw-bold text-dark mb-2">{p.title}</h4>
                         <p className="card-text text-muted small flex-grow-1" style={{ lineHeight: '1.6' }}>{p.desc}</p>

@@ -13,14 +13,14 @@ const faq = [
 
 const volunteerGallery: LightboxImage[] = [
   {
-    src: '/image/gonullu-ol/gonullu-saha-egitimi-1.webp',
+    src: '/image/gonullu-ol/gonullu-gece-gozlemi.webp',
     title: 'Alacakaranlıkta Cihaz & Transekt Eğitimi',
     tag: 'Saha Eğitimi',
     date: '12 Mayıs 2026',
     caption: 'Saha çıkışı öncesinde gönüllülere GPS doğrulama ve dedektör kullanım protokolünün aktarılması.',
   },
   {
-    src: '/image/gonullu-ol/gonullu-saha-egitimi-1.webp',
+    src: '/image/gonullu-ol/gonullu-gece-gozlemi.webp',
     title: 'Alacakaranlıkta Cihaz & Transekt Eğitimi',
     tag: 'Saha Eğitimi',
     date: '12 Mayıs 2026',
@@ -187,7 +187,7 @@ export default function GonulluOl() {
                       onClick={() => setLightboxImage(volunteerGallery[1])}
                       style={{ cursor: 'pointer', height: '110px' }}
                     >
-                      <img src="/image/gonullu-ol/gonullu-saha-egitimi-1.webp" alt="Saha Eğitimi" loading="lazy" decoding="async" className="w-100 h-100 object-fit-cover" />
+                      <img src="/image/gonullu-ol/gonullu-gece-gozlemi.webp" alt="Saha Eğitimi" loading="lazy" decoding="async" className="w-100 h-100 object-fit-cover" />
                       <div className="position-absolute bottom-0 start-0 end-0 p-1 bg-dark bg-opacity-75 text-white small text-center" style={{ fontSize: '11px' }}>
                         <i className="bi bi-zoom-in me-1" />Saha Eğitimi
                       </div>

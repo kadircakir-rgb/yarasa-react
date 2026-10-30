@@ -4,7 +4,7 @@ import { useAdminStore, type BlogPost } from '../../store/adminStore'
 import { apiUrl } from '../../lib/api'
 import Modal from '../../components/Modal'
 
-type Tab = 'dashboard' | 'posts' | 'new' | 'edit' | 'uyeler' | 'gonulluler' | 'gozlemler' | 'mesajlar' | 'yedek'
+type Tab = 'dashboard' | 'posts' | 'new' | 'edit' | 'uyeler' | 'gonulluler' | 'gozlemler' | 'mesajlar' | 'yedek' | 'yayinlar'
 
 /* ── Export Utilities ────────────────────────────────── */
 const exportCSV = (filename: string, headers: string[], rows: (string | number)[][]) => {
@@ -57,6 +57,7 @@ export default function AdminPanel() {
     logout, addPost, updatePost, deletePost,
     updateUyeDurum, deleteUyeBasvuru,
     deleteGonullu, deleteGozlem, deleteMesaj, importAllData,
+    yayinlar, addYayin, updateYayin, deleteYayin,
   } = useAdminStore()
 
   const postList = posts || []
@@ -64,6 +65,57 @@ export default function AdminPanel() {
   const gonulluList = gonulluler || []
   const gozlemList = gozlemler || []
   const mesajList = mesajlar || []
+  const yayinlarList = yayinlar || []
+  const [yayinForm, setYayinForm] = useState({
+    title: '',
+    type: 'Araştırma Makalesi',
+    badge: 'BAP Çıktısı',
+    authors: '',
+    date: '2026',
+    journal: '',
+    fileUrl: '',
+    doi: '',
+  })
+  const [yayinEditId, setYayinEditId] = useState<string | null>(null)
+  const [yayinSaved, setYayinSaved] = useState(false)
+
+  const handleSaveYayin = () => {
+    if (!yayinForm.title.trim()) return
+    if (yayinEditId) {
+      updateYayin(yayinEditId, yayinForm)
+    } else {
+      addYayin(yayinForm)
+    }
+    setYayinForm({
+      title: '',
+      type: 'Araştırma Makalesi',
+      badge: 'BAP Çıktısı',
+      authors: '',
+      date: '2026',
+      journal: '',
+      fileUrl: '',
+      doi: '',
+    })
+    setYayinEditId(null)
+    setYayinSaved(true)
+    setTimeout(() => setYayinSaved(false), 3000)
+  }
+
+  const handleEditYayin = (item: any) => {
+    setYayinForm({
+      title: item.title,
+      type: item.type,
+      badge: item.badge,
+      authors: item.authors || '',
+      date: item.date || '2026',
+      journal: item.journal || '',
+      fileUrl: item.fileUrl || '',
+      doi: item.doi || '',
+    })
+    setYayinEditId(item.id)
+    setTab('yayinlar')
+  }
+
   const navigate = useNavigate()
 
   const [tab, setTab] = useState<Tab>('dashboard')
@@ -170,6 +222,7 @@ export default function AdminPanel() {
     gozlemler: 'Gözlem Bildirimleri',
     mesajlar: 'Gelen Mesajlar',
     yedek: 'Veri Yedekleme & Arşiv',
+    yayinlar: 'Bilimsel Yayınlar & Çıktılar',
   }
 
   /* ═══════════════════════════════════════════════════════ */
@@ -241,6 +294,7 @@ export default function AdminPanel() {
           {sidebarItem('gonulluler', 'bi-people', `Gönüllü Başvuruları (${gonulluList.length})`)}
           {sidebarItem('gozlemler', 'bi-binoculars', `Gözlem Bildirimleri (${gozlemList.length})`)}
           {sidebarItem('mesajlar', 'bi-envelope', `Gelen Mesajlar (${mesajList.length})`)}
+          {sidebarItem('yayinlar', 'bi-journal-text', `Yayınlar & Çıktılar (${yayinlarList.length})`)}
           <div style={{ borderTop: '1px solid #333', margin: '8px 0' }} />
           {sidebarItem('yedek', 'bi-database-down', 'Veri Yedekleme & Arşiv')}
         </nav>
@@ -995,6 +1049,212 @@ export default function AdminPanel() {
               </div>
             )}
           </>
+        )}
+
+        {/* ── BİLİMSEL ÇIKTILAR VE YAYINLAR TABI ── */}
+        {tab === 'yayinlar' && (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
+              <div>
+                <h1 style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>
+                  <i className="bi bi-journal-text" style={{ color: '#e61b23' }} /> Bilimsel Çıktılar ve Yayınlar
+                </h1>
+                <p style={{ color: '#666', fontSize: '14px', marginTop: '4px', margin: 0 }}>
+                  Web sitesinin Kaynaklar ve Saha sayfalarında yatay formatta listelenen makale, bildiri ve raporları yönetin.
+                </p>
+              </div>
+            </div>
+
+            {yayinSaved && (
+              <div style={{ background: '#d4edda', border: '1px solid #c3e6cb', color: '#155724', padding: '12px 16px', borderRadius: '8px', marginBottom: '20px', fontSize: '14px' }}>
+                <i className="bi bi-check-circle-fill me-2" /> Yayın başarıyla kaydedildi!
+              </div>
+            )}
+
+            {/* Yayın Ekle / Düzenle Formu */}
+            <div style={{ background: '#fff', borderRadius: '12px', padding: '24px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)', marginBottom: '32px' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '16px' }}>
+                <i className="bi bi-plus-circle text-danger me-2" />
+                {yayinEditId ? 'Yayını Düzenle' : 'Yeni Bilimsel Yayın / Makale Ekle'}
+              </h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '16px' }}>
+                <div style={{ gridColumn: '1 / -1' }}>
+                  <label style={labelStyle}>Makale / Yayın / Rapor Başlığı *</label>
+                  <input
+                    type="text"
+                    value={yayinForm.title}
+                    onChange={e => setYayinForm({ ...yayinForm, title: e.target.value })}
+                    placeholder="Örn: Kırşehir İli Kentsel ve Karstik Habitatlarında Yarasa..."
+                    style={inputStyle}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>Yayın Türü</label>
+                  <select
+                    value={yayinForm.type}
+                    onChange={e => setYayinForm({ ...yayinForm, type: e.target.value })}
+                    style={inputStyle}
+                  >
+                    <option value="Araştırma Makalesi">Araştırma Makalesi</option>
+                    <option value="Teknik Rapor">Teknik Rapor</option>
+                    <option value="Bilimsel Bildiri">Bilimsel Bildiri</option>
+                    <option value="BAP Çıktısı">BAP Çıktısı</option>
+                    <option value="Resmi Kılavuz">Resmi Kılavuz</option>
+                    <option value="Kitap Bölümü">Kitap Bölümü</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={labelStyle}>Durum / Etiket</label>
+                  <input
+                    type="text"
+                    value={yayinForm.badge}
+                    onChange={e => setYayinForm({ ...yayinForm, badge: e.target.value })}
+                    placeholder="Örn: BAP Çıktısı, Yayınlandı, Saha Raporu"
+                    style={inputStyle}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>Yazarlar / Araştırma Ekibi</label>
+                  <input
+                    type="text"
+                    value={yayinForm.authors}
+                    onChange={e => setYayinForm({ ...yayinForm, authors: e.target.value })}
+                    placeholder="Örn: Yarasa Araştırmaları Derneği & BAP Proje Ekibi"
+                    style={inputStyle}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>Yıl / Tarih</label>
+                  <input
+                    type="text"
+                    value={yayinForm.date}
+                    onChange={e => setYayinForm({ ...yayinForm, date: e.target.value })}
+                    placeholder="Örn: 2026"
+                    style={inputStyle}
+                  />
+                </div>
+                <div style={{ gridColumn: '1 / -1' }}>
+                  <label style={labelStyle}>Dergi / Rapor Serisi / Kurum</label>
+                  <input
+                    type="text"
+                    value={yayinForm.journal}
+                    onChange={e => setYayinForm({ ...yayinForm, journal: e.target.value })}
+                    placeholder="Örn: Kırşehir Ahi Evran Üniversitesi BAP Birimi"
+                    style={inputStyle}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>Doküman / Dosya Linki (İsteğe bağlı)</label>
+                  <input
+                    type="text"
+                    value={yayinForm.fileUrl}
+                    onChange={e => setYayinForm({ ...yayinForm, fileUrl: e.target.value })}
+                    placeholder="/docs/Turkiye_Yarasalari_Bilgilendirme.docx"
+                    style={inputStyle}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>DOI / Harici Bağlantı (İsteğe bağlı)</label>
+                  <input
+                    type="text"
+                    value={yayinForm.doi}
+                    onChange={e => setYayinForm({ ...yayinForm, doi: e.target.value })}
+                    placeholder="https://doi.org/..."
+                    style={inputStyle}
+                  />
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                {yayinEditId && (
+                  <button
+                    onClick={() => {
+                      setYayinEditId(null)
+                      setYayinForm({
+                        title: '', type: 'Araştırma Makalesi', badge: 'BAP Çıktısı',
+                        authors: '', date: '2026', journal: '', fileUrl: '', doi: ''
+                      })
+                    }}
+                    style={{ padding: '10px 20px', border: '1.5px solid #e0e0e0', borderRadius: '8px', background: '#fff', cursor: 'pointer', fontSize: '14px' }}
+                  >
+                    İptal
+                  </button>
+                )}
+                <button
+                  onClick={handleSaveYayin}
+                  style={{ padding: '10px 24px', background: '#e61b23', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '14px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <i className="bi bi-check-lg" /> {yayinEditId ? 'Güncelle' : 'Yayını Listeye Ekle'}
+                </button>
+              </div>
+            </div>
+
+            {/* Mevcut Yayınlar Yatay Listesi */}
+            <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', marginBottom: '16px' }}>
+              Mevcut Yayınlar ({yayinlarList.length})
+            </h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {yayinlarList.map((item: any) => (
+                <div
+                  key={item.id}
+                  style={{
+                    background: '#fff',
+                    borderRadius: '12px',
+                    padding: '20px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+                    borderLeft: '5px solid #e61b23',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px'
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '10px' }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '6px', flexWrap: 'wrap' }}>
+                        <span style={{ background: '#e61b23', color: '#fff', fontSize: '11px', fontWeight: 600, padding: '3px 8px', borderRadius: '4px' }}>
+                          {item.type}
+                        </span>
+                        <span style={{ background: '#fde8e8', color: '#e61b23', fontSize: '11px', fontWeight: 600, padding: '3px 8px', borderRadius: '4px' }}>
+                          {item.badge}
+                        </span>
+                        {item.date && (
+                          <span style={{ color: '#888', fontSize: '12px' }}>
+                            <i className="bi bi-calendar3 me-1" />{item.date}
+                          </span>
+                        )}
+                      </div>
+                      <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 6px', lineHeight: 1.4 }}>
+                        {item.title}
+                      </h4>
+                      {item.authors && (
+                        <div style={{ fontSize: '13px', color: '#555', marginBottom: '4px' }}>
+                          <strong>Yazarlar:</strong> {item.authors}
+                        </div>
+                      )}
+                      {item.journal && (
+                        <div style={{ fontSize: '13px', color: '#777' }}>
+                          <em>{item.journal}</em>
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <button
+                        onClick={() => handleEditYayin(item)}
+                        style={{ padding: '6px 12px', background: '#f5f5f5', border: '1px solid #ddd', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', color: '#333' }}
+                      >
+                        <i className="bi bi-pencil me-1" /> Düzenle
+                      </button>
+                      <button
+                        onClick={() => deleteYayin(item.id)}
+                        style={{ padding: '6px 12px', background: '#fff5f5', border: '1px solid #fcc', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', color: '#e61b23' }}
+                      >
+                        <i className="bi bi-trash me-1" /> Sil
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         )}
 
         {/* ── VERİ YEDEKLEME & ARŞİV ── */}

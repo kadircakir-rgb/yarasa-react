@@ -58,11 +58,11 @@ const allFieldPhotos: FieldPhoto[] = [
   },
   {
     src: '/image/saha-calismalari/20260428_194815.webp',
-    title: 'Kızılırmak Ripariyen Koridoru & Uçuş Hattı',
+    title: 'Kılıçözü Deresi Ripariyen Koridoru & Uçuş Hattı',
     category: 'habitat',
     tag: 'Doğal Habitat',
     date: '28 Nisan 2026',
-    caption: 'Nehir vadisi boyunca yarasaların avlanma koridoru ve su kenarı vejetasyon dinamiklerinin izlenmesi.',
+    caption: 'Dere koridoru boyunca yarasaların avlanma hattı ve su kenarı vejetasyon dinamiklerinin izlenmesi.',
   },
   {
     src: '/image/saha-calismalari/20260513_133239.webp',
@@ -82,7 +82,7 @@ const allFieldPhotos: FieldPhoto[] = [
   },
   {
     src: '/image/saha-calismalari/20260513_145112.webp',
-    title: 'Kızılırmak Kıyı Vejetasyonu & Av Alanı',
+    title: 'Kılıçözü Deresi Kıyı Vejetasyonu & Av Alanı',
     category: 'habitat',
     tag: 'Doğal Habitat',
     date: '13 Mayıs 2026',
@@ -228,7 +228,7 @@ export default function SahaCalismalari() {
                 label: isTr ? 'Hedef 1' : 'Goal 1',
                 title: isTr ? 'Tünek Araştırması (Yuva Kontrolü)' : 'Roost Research (Roost Inspection)',
                 text: isTr
-                  ? 'Tünek araştırması; yarasaların gündüz dinlendiği, kış uykusuna yattığı veya yavruladığı doğal ve yapay sığınakların (yuva alanlarının) tespit edilerek kontrol edilmesi anlamına gelir. Kırşehir il merkezinde köprü altları, tarihi kâgir binalar ve nehir koridoru boyunca aktif ve potansiyel tünek alanları sistematik olarak haritalanmaktadır. Endoskopik optik ve termal kameralarla yuvalara müdahale edilmeden sayım yapılmaktadır.'
+                  ? 'Tünek araştırması; yarasaların gündüz dinlendiği, kış uykusuna yattığı veya yavruladığı doğal ve yapay sığınakların (yuva alanlarının) tespit edilerek kontrol edilmesi anlamına gelir. Kırşehir il merkezinde köprü altları, tarihi kâgir binalar ve Kılıçözü Deresi koridoru boyunca aktif ve potansiyel tünek alanları sistematik olarak haritalanmaktadır. Endoskopik optik ve termal kameralarla yuvalara müdahale edilmeden sayım yapılmaktadır.'
                   : 'Roost research means inspecting natural and anthropogenic shelters where bats rest during daytime, hibernate, or rear young. Roosts along bridge joints and historical structures are mapped systematically using endoscopic and thermal tools without disturbance.'
               },
               {
@@ -244,8 +244,8 @@ export default function SahaCalismalari() {
                 label: isTr ? 'Hedef 3' : 'Goal 3',
                 title: isTr ? 'Kırşehir Yarasa Faunasının Belirlenmesi' : 'Determining Kırşehir Bat Fauna',
                 text: isTr
-                  ? 'Kızılırmak ripariyen koridoru, yarı-kurak bozkır zonu, tarihi kent merkezi ve Seyfe Gölü havzasındaki farklı habitat tipleri karşılaştırılarak Kırşehir il envanteri çıkarılmakta ve Türkiye genelindeki 40 tür dağılım haritasına işlenmektedir.'
-                  : 'By comparing diverse habitats including the Kızılırmak river corridor, semi-arid steppe, and historical quarters, Kırşehir inventory is established within Turkey’s 40 species catalogue.'
+                  ? 'Şehir merkezinde Kılıçözü Deresi boyunca uzanan koridor, yarı-kurak bozkır zonu, tarihi kâgir yapılar ve Seyfe Gölü havzasındaki farklı habitat tipleri karşılaştırılarak Kırşehir il envanteri çıkarılmakta ve Türkiye genelindeki 40 tür dağılım haritasına işlenmektedir.'
+                  : 'By comparing diverse habitats along the Kılıçözü stream corridor in the city center, semi-arid steppe, and historical masonry structures, Kırşehir inventory is established within Turkey’s 40 species catalogue.'
               },
             ].map((item, i) => (
               <div key={i} className="col-lg-4">
@@ -274,7 +274,7 @@ export default function SahaCalismalari() {
           <div className="row gy-4">
             <div className="col-lg-5">
               <p>
-                Kırşehir, İç Anadolu'nun Kızılırmak havzasında yer alan, yarı kurak iklim koşullarına sahip zengin bir biyocoğrafi merkezdir. Orta Anadolu steplerinin fauna elemanları ile Kızılırmak vadisi ripariyen ekosisteminin kesişim noktası olması, yüksek yarasa tür zenginliğine zemin hazırlamaktadır.
+                Kırşehir, şehir merkezinde Kılıçözü Deresi boyunca uzanan ve çevresindeki yarı-kurak bozkır zonuyla şekillenen zengin bir biyocoğrafi merkezdir. Orta Anadolu bozkırının fauna elemanları ile Kılıçözü Deresi ripariyen ekosisteminin kesişim noktası olması, yüksek yarasa tür zenginliğine zemin hazırlamaktadır.
               </p>
               <div
                 className="rounded-3 overflow-hidden shadow-sm hover-card position-relative mt-2"
@@ -306,7 +306,7 @@ export default function SahaCalismalari() {
                       <div
                         className="rounded-2 overflow-hidden position-relative shadow-sm"
                         onClick={() => setLightboxImage(p.item)}
-                        style={{ cursor: 'pointer', height: '95px' }}
+                        style={{ cursor: 'pointer', height: '160px' }}
                       >
                         <img src={p.src} alt={p.title} className="w-100 h-100 object-fit-cover" />
                         <div className="position-absolute bottom-0 start-0 end-0 p-1 bg-dark bg-opacity-75 text-white text-center" style={{ fontSize: '10px' }}>

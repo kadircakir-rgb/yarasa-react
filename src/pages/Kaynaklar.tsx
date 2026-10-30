@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import PageTitle from '../components/PageTitle'
 import { useLangStore } from '../store/langStore'
+import { useAdminStore, type YayinItem } from '../store/adminStore'
 
 interface DocItem {
   id: string
@@ -61,77 +62,41 @@ const officialDocs: DocItem[] = [
   },
 ]
 
-const cards = [
-  {
-    icon: 'bi-book',
-    title: 'Rehberler & Tür Tanımlama',
-    items: [
-      { icon: 'bi-file-earmark-pdf', label: 'Türkiye Yarasa Türleri Teşhis Kılavuzu', badge: 'Hazırlanıyor' },
-      { icon: 'bi-soundwave', label: 'Elekon Batlogger S2 ile Akustik İzleme Rehberi', badge: 'Saha Kılavuzu' },
-      { icon: 'bi-file-earmark-code', label: 'BatExplorer Akustik Sinyal Analiz Protokolü', badge: 'Protokol' },
-    ]
-  },
-  {
-    icon: 'bi-journal-text',
-    title: 'Araştırma & Mevzuat Kılavuzları',
-    items: [
-      { icon: 'bi-mortarboard', label: 'Non-İnvasif Yarasa Araştırma Metodolojisi', badge: 'Akademik' },
-      { icon: 'bi-shield-check', label: '2872 ve 4915 Sayılı Koruma Mevzuatı Özeti', badge: 'Hukuki' },
-      { icon: 'bi-globe', label: 'EUROBATS Standart Survey Protokolleri', badge: 'Uluslararası' },
-    ]
-  },
-  {
-    icon: 'bi-images',
-    title: 'Fotoğraf & Akustik Veri Tabanı',
-    items: [
-      { icon: 'bi-camera', label: 'Kırşehir Kentsel ve Mağara Tünek Fotoğraf Arşivi', badge: 'Aktif Arşiv' },
-      { icon: 'bi-mic', label: 'Örnek Ultrasonik Ekolokasyon Kayıtları (WAV)', badge: 'Yakında' },
-    ]
-  },
-  {
-    icon: 'bi-file-earmark-bar-graph',
-    title: 'Yıllık Raporlar & Çıktılar',
-    items: [
-      { icon: 'bi-file-earmark-pdf', label: 'Kırşehir Yarasa Faunasının Belirlenmesi BAP Raporu', badge: 'Tamamlandı' },
-      { icon: 'bi-file-earmark-pdf', label: '2026 Yılı Kentsel İzleme Raporu', badge: 'Hazırlanıyor' },
-    ]
-  },
-]
-
 export default function Kaynaklar() {
   const { lang } = useLangStore()
   const isTr = lang === 'tr'
   const [modalImg, setModalImg] = useState<string | null>(null)
+  const yayinlar = useAdminStore(state => state.yayinlar) || []
 
   return (
     <main className="main">
       <PageTitle
-        title={isTr ? "Kaynaklar & Yayınlar" : "Resources & Publications"}
-        subtitle={isTr ? "Resmi afişler, bilgilendirme broşürleri, araştırma kılavuzları ve veri tabanı" : "Official posters, educational brochures, research manuals, and data repositories"}
+        title={isTr ? "Kaynaklar & Bilimsel Çıktılar" : "Resources & Scientific Publications"}
+        subtitle={isTr ? "Resmi afişler, bilgilendirme dokümanları ve bilimsel araştırma yayınları" : "Official posters, documents, and research publications"}
         crumb={isTr ? "Kaynaklar" : "Resources"}
-        bg="/image/slider-hero-1.jpg"
+        bg="/image/saha-calismalari/20260602_201650.webp"
       />
 
       {/* ── 1. RESMİ AFİŞ & BROŞÜRLER ── */}
-      <section className="section pb-4">
+      <section className="section pb-5">
         <div className="container" data-aos="fade-up">
           <div className="section-title text-center mb-5">
             <span className="badge bg-danger-subtle text-danger px-3 py-1 mb-2 fw-semibold">
-              <i className="bi bi-file-earmark-arrow-down me-1" />{isTr ? 'BASILI YAYINLAR & MATERYALLER' : 'PRINTED MATERIALS'}
+              <i className="bi bi-file-earmark-arrow-down me-1" />{isTr ? 'BASILI VE RESMİ MATERYALLER' : 'PRINTED & OFFICIAL MATERIALS'}
             </span>
             <h2 style={{ fontSize: '2.2rem', color: '#1a1a1a', fontWeight: 700 }}>
               {isTr ? 'Resmi Bilgilendirme ve Koruma Materyalleri' : 'Official Awareness & Conservation Materials'}
             </h2>
             <p className="text-muted" style={{ maxWidth: '680px', margin: '0 auto', fontSize: '15px' }}>
               {isTr
-                ? 'Derneğimiz tarafından hazırlanan resmi tünek afişleri ve bilgilendirme broşürlerini yüksek çözünürlükte görüntüleyebilir ve indirebilirsiniz.'
-                : 'Browse and download high-resolution official roost protection posters and informative brochures produced by our association.'}
+                ? 'Derneğimiz tarafından hazırlanan resmi tünek afişleri, bilgilendirme broşürleri ve bilimsel kılavuz dosyalarını doğrudan inceleyebilir ve indirebilirsiniz.'
+                : 'Browse and download official roost protection posters, brochures, and scientific documentation.'}
             </p>
           </div>
 
           <div className="row g-4">
             {officialDocs.map(doc => (
-              <div key={doc.id} className="col-lg-4 col-md-6">
+              <div key={doc.id} className="col-lg-6 col-md-6">
                 <div className="card h-100 border-0 shadow-sm hover-card rounded-4 overflow-hidden d-flex flex-column" style={{ background: '#fff', border: '1px solid #f0e6e6' }}>
                   <div style={{ position: 'relative', height: '260px', overflow: 'hidden', background: '#222' }}>
                     <img
@@ -161,7 +126,7 @@ export default function Kaynaklar() {
                       <h3 className="h6 fw-bold mb-2" style={{ color: '#1a1a1a' }}>{doc.title}</h3>
                       <p className="text-muted small mb-3" style={{ lineHeight: '1.6' }}>{doc.desc}</p>
                       <div className="d-flex align-items-center gap-2 mb-3 text-muted" style={{ fontSize: '12px' }}>
-                        <span><i className="bi bi-filetype-jpg text-danger me-1" />{doc.format}</span>
+                        <span><i className="bi bi-file-earmark-text text-danger me-1" />{doc.format}</span>
                         <span>•</span>
                         <span><i className="bi bi-hdd me-1" />{doc.size}</span>
                       </div>
@@ -194,50 +159,114 @@ export default function Kaynaklar() {
         </div>
       </section>
 
-      {/* ── 2. REHBERLER & BELGELER ── */}
-      <section className="section light-background pt-5">
+      {/* ── 2. BİLİMSEL ÇIKTILAR VE YAYINLAR (YATAY GENİŞ FORMAT) ── */}
+      <section className="section light-background pt-5 pb-5">
         <div className="container" data-aos="fade-up">
           <div className="section-title text-center mb-5">
             <span className="badge bg-danger-subtle text-danger px-3 py-1 mb-2 fw-semibold">
-              <i className="bi bi-journal-bookmark me-1" />{isTr ? 'KILAVUZLAR & ARŞİV' : 'MANUALS & ARCHIVES'}
+              <i className="bi bi-journal-text me-1" />{isTr ? 'BİLİMSEL LİTERATÜR' : 'SCIENTIFIC LITERATURE'}
             </span>
             <h2 style={{ fontSize: '2.2rem', color: '#1a1a1a', fontWeight: 700 }}>
-              {isTr ? 'Kılavuzlar ve Bilimsel Dokümantasyon' : 'Guides and Scientific Documentation'}
+              {isTr ? 'Bilimsel Çıktılar ve Yayınlar' : 'Scientific Outputs & Publications'}
             </h2>
+            <p className="text-muted" style={{ maxWidth: '680px', margin: '0 auto', fontSize: '15px' }}>
+              {isTr
+                ? 'Kırşehir yarasa faunası, akustik izleme ve tünek araştırmalarına ilişkin SCI makaleler, teknik saha raporları ve bilimsel bildiriler.'
+                : 'Peer-reviewed articles, technical field reports, and conference proceedings on bat fauna and acoustics.'}
+            </p>
           </div>
 
-          <div className="row gy-4">
-            {cards.map((card, i) => (
-              <div key={i} className="col-lg-6">
-                <div className="p-4 bg-white rounded-4 shadow-sm h-100 hover-card" style={{ border: '1px solid #f0e6e6' }}>
-                  {/* Başlık */}
-                  <div className="d-flex align-items-center gap-3 mb-4">
-                    <div className="rounded-3 d-flex align-items-center justify-content-center"
-                      style={{ width: 44, height: 44, background: '#f5e6e6', flexShrink: 0 }}>
-                      <i className={`bi ${card.icon} fs-4`} style={{ color: '#e61b23' }} />
-                    </div>
-                    <h3 className="h5 mb-0" style={{ color: '#1a1a1a', fontWeight: 700 }}>{card.title}</h3>
+          <div className="d-flex flex-column gap-3">
+            {yayinlar.map((pub: YayinItem, idx: number) => (
+              <div
+                key={pub.id || idx}
+                className="p-4 bg-white rounded-4 shadow-sm hover-card border-0 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3"
+                style={{ borderLeft: '5px solid #e61b23' }}
+              >
+                <div className="flex-grow-1">
+                  <div className="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                    <span className="badge bg-danger" style={{ fontSize: '11px', fontWeight: 600 }}>
+                      {pub.type}
+                    </span>
+                    <span className="badge bg-danger-subtle text-danger border border-danger-subtle" style={{ fontSize: '11px', fontWeight: 600 }}>
+                      {pub.badge}
+                    </span>
+                    {pub.date && (
+                      <span className="text-muted small">
+                        <i className="bi bi-calendar3 me-1" />{pub.date}
+                      </span>
+                    )}
                   </div>
+                  <h3 className="h5 fw-bold mb-2 text-dark" style={{ lineHeight: '1.4' }}>
+                    {pub.title}
+                  </h3>
+                  {pub.authors && (
+                    <div className="text-muted small mb-1">
+                      <i className="bi bi-person me-1 text-danger" />
+                      <strong>Yazarlar:</strong> {pub.authors}
+                    </div>
+                  )}
+                  {pub.journal && (
+                    <div className="text-muted small">
+                      <i className="bi bi-journal-bookmark me-1 text-danger" />
+                      <em>{pub.journal}</em>
+                    </div>
+                  )}
+                </div>
 
-                  {/* Öğeler */}
-                  <ul className="list-unstyled mb-0">
-                    {card.items.map((item, j) => (
-                      <li key={j} className="d-flex align-items-center justify-content-between py-2"
-                        style={{ borderBottom: j < card.items.length - 1 ? '1px solid #f5e6e6' : 'none' }}>
-                        <div className="d-flex align-items-center gap-2">
-                          <i className={`bi ${item.icon}`} style={{ color: '#e61b23', fontSize: '16px' }} />
-                          <span style={{ fontSize: '14px', color: '#444' }}>{item.label}</span>
-                        </div>
-                        <span className="badge rounded-pill"
-                          style={{ background: '#f5e6e6', color: '#e61b23', fontSize: '11px', fontWeight: 600, padding: '4px 10px' }}>
-                          {item.badge}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                <div className="d-flex align-items-center gap-2 flex-shrink-0">
+                  {pub.fileUrl ? (
+                    <a
+                      href={pub.fileUrl}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-outline-danger btn-sm d-flex align-items-center gap-1 px-3 py-2"
+                      style={{ borderRadius: '8px', fontWeight: 600 }}
+                    >
+                      <i className="bi bi-download" /> {isTr ? 'Dokümanı İndir' : 'Download Document'}
+                    </a>
+                  ) : pub.doi ? (
+                    <a
+                      href={pub.doi}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-outline-danger btn-sm d-flex align-items-center gap-1 px-3 py-2"
+                      style={{ borderRadius: '8px', fontWeight: 600 }}
+                    >
+                      <i className="bi bi-box-arrow-up-right" /> DOI / İncele
+                    </a>
+                  ) : (
+                    <span className="badge bg-light text-muted border px-3 py-2" style={{ fontSize: '12px' }}>
+                      <i className="bi bi-check-circle me-1 text-success" /> Kurumsal Arşivde
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Turkiye Yarasalari Bilgilendirme Word Dosyası Özel İndirme Kartı */}
+          <div className="mt-4 p-4 rounded-4 shadow-sm d-flex flex-column flex-md-row align-items-center justify-content-between gap-3" style={{ background: '#1a1a1a', color: '#fff' }}>
+            <div className="d-flex align-items-center gap-3">
+              <div style={{ width: 50, height: 50, background: '#e61b23', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <i className="bi bi-file-earmark-word fs-3 text-white" />
+              </div>
+              <div>
+                <h5 className="mb-1 text-white fw-bold">Turkiye_Yarasalari_Bilgilendirme.docx</h5>
+                <p className="mb-0 text-white-50 small">
+                  Türkiye genelinde 40 yarasa türü, koruma statüleri, tünek ekolojisi ve mevzuat bilgilerini içeren resmi Word dokümanı.
+                </p>
+              </div>
+            </div>
+            <a
+              href="/docs/Turkiye_Yarasalari_Bilgilendirme.docx"
+              download
+              className="btn btn-danger px-4 py-2 flex-shrink-0 d-flex align-items-center gap-2 fw-semibold"
+              style={{ borderRadius: '8px' }}
+            >
+              <i className="bi bi-download" /> Word Dosyasını İndir
+            </a>
           </div>
         </div>
       </section>
