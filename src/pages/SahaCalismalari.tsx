@@ -33,7 +33,7 @@ const allFieldPhotos: FieldPhoto[] = [
     caption: 'Kırşehir kentsel güzergâhında gün batımı öncesinde gözlem noktası istasyonunun kurulması ve GPS kalibrasyonu.',
   },
   {
-    src: '/image/saha-calismalari/20260421_164620.webp',
+    src: '/image/saha-calismalari/tarihi-kagir-derz-kontrol.webp',
     title: 'Tarihi Kâgir Yapı Derz ve Çatlak Kontrolü',
     category: 'tunek',
     tag: 'Yuva Kontrolü',
@@ -57,7 +57,7 @@ const allFieldPhotos: FieldPhoto[] = [
     caption: 'Gün batımı anında başlayan akustik dinleme transektinde ultrasonik ekolokasyon çağrılarının kaydı.',
   },
   {
-    src: '/image/saha-calismalari/20260428_194815.webp',
+    src: '/image/saha-calismalari/kilicozu-deresi-ripariyen-koridoru.webp',
     title: 'Kılıçözü Deresi Ripariyen Koridoru & Uçuş Hattı',
     category: 'habitat',
     tag: 'Doğal Habitat',
@@ -89,7 +89,7 @@ const allFieldPhotos: FieldPhoto[] = [
     caption: 'Kıyı boyu ağaç örtüsünün Pipistrellus ve Myotis türleri için korunaklı uçuş hattı sağlama analizi.',
   },
   {
-    src: '/image/saha-calismalari/20260513_200047.webp',
+    src: '/image/saha-calismalari/kopru-alti-cikis-sayimi.webp',
     title: 'Köprü Altı Akşam Çıkış Sayımı & Gözlem',
     category: 'tunek',
     tag: 'Yuva Kontrolü',
@@ -129,7 +129,7 @@ const allFieldPhotos: FieldPhoto[] = [
     caption: 'Gece saatlerinde akustik ses dinleme dedektörleriyle taranan açık alan ve habitat manzarası.',
   },
   {
-    src: '/image/saha-calismalari/20260602_201813.webp',
+    src: '/image/saha-calismalari/alacakaranlikta-ultrasonik-dinleme.webp',
     title: 'Alacakaranlıkta Ultrasonik Ses Dinleme',
     category: 'akustik',
     tag: 'Akustik Dinleme',
@@ -462,14 +462,14 @@ export default function SahaCalismalari() {
                 title: 'BatExplorer & Analiz',
                 subtitle: isTr ? 'Akustik Ses Analiz Yazılımı' : 'Acoustic Sound Analysis Software',
                 text: 'Toplanan WAV kayıtları; time-expanded oynatma, tepe frekansı (Fpeak) tespiti ve Avrupa/Türkiye tür referans veri tabanına göre spektrogram analizlerine tabi tutularak tür tanımlaması kesinleştirilmektedir.',
-                img: null
+                img: '/image/batexplorer.webp'
               },
               {
                 icon: 'bi-camera-video',
                 title: 'Endoskop Kamera & Fener',
                 subtitle: isTr ? 'Yuva Kontrolü ve Tünek Tespiti' : 'Roost Inspection Camera',
                 text: 'Tarihi binalardaki derin çatlaklar, köprü genleşme derzleri ve mağara boşluklarında bireyleri rahatsız etmeden yuva kontrolü ve koloni sayımı yapmak üzere optik endoskopik kamera kullanılmaktadır.',
-                img: null
+                img: '/image/endoskop.webp'
               },
             ].map((item, i) => (
               <div key={i} className="col-lg-4">
