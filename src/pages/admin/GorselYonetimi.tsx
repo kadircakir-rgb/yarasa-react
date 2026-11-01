@@ -8,6 +8,7 @@ import {
   uploadFileToGitHub,
   type UploadResult
 } from '../../services/githubService'
+import { useImageMetaStore } from '../../store/imageMetaStore'
 
 type PageFilter = 'Tümü' | 'Ana Sayfa' | 'Hakkımızda' | 'Yarasalar' | 'Saha Çalışmaları' | 'Gönüllü Ol'
 
@@ -27,6 +28,21 @@ export default function GorselYonetimi() {
   const [tokenUser, setTokenUser] = useState<string | null>(null)
   const [tokenEditing, setTokenEditing] = useState(false)
   const [tokenInput, setTokenInput] = useState('')
+
+  // Title & description management store
+  const metaMap = useImageMetaStore(s => s.metaMap)
+  const updateMeta = useImageMetaStore(s => s.updateMeta)
+  const getMeta = useImageMetaStore(s => s.getMeta)
+
+  const [editingMetaId, setEditingMetaId] = useState<string | null>(null)
+  const [metaForm, setMetaForm] = useState<{ title: string; caption: string; tag: string; date: string }>({
+    title: '',
+    caption: '',
+    tag: '',
+    date: '',
+  })
+  const [metaPushing, setMetaPushing] = useState(false)
+  const [metaStatus, setMetaStatus] = useState<{ id: string; success: boolean; msg: string } | null>(null)
 
   // Track upload state for each image card
   const [uploadStates, setUploadStates] = useState<Record<string, ActiveUploadState>>({})
@@ -82,9 +98,7 @@ export default function GorselYonetimi() {
     }))
 
     try {
-      // 1. Optimize image client-side to WebP max 1920x1920
       const optimized = await optimizeImageFile(file, 1920, 1920, 0.88)
-
       setUploadStates(prev => ({
         ...prev,
         [item.id]: { optimizing: false, optimized, uploading: false }
@@ -128,7 +142,6 @@ export default function GorselYonetimi() {
             result: res,
           }
         }))
-        // Refresh cache buster to show new live image
         setCacheBuster(Date.now())
       } else {
         setUploadStates(prev => ({
@@ -159,7 +172,6 @@ export default function GorselYonetimi() {
     try {
       const opt = await optimizeImageFile(file, 1920, 1920, 0.88)
       setCustomOptimized(opt)
-      // Suggest filename based on selected file name
       const cleanName = file.name.toLowerCase().replace(/[^a-z0-9_-]/g, '-').replace(/-+/g, '-')
       const baseName = cleanName.substring(0, cleanName.lastIndexOf('.')) || cleanName
       setCustomPath(`public/image/${baseName}.webp`)
@@ -194,11 +206,106 @@ export default function GorselYonetimi() {
     }
   }
 
+  // ── Title & Caption Editing Functions ──
+  const handleOpenEditMeta = (item: SiteImageItem) => {
+    if (editingMetaId === item.id) {
+      setEditingMetaId(null)
+      return
+    }
+    const current = getMeta(item.id, {
+      title: item.title,
+      section: item.section,
+      caption: '',
+      tag: '',
+      date: '',
+    })
+    setMetaForm({
+      title: current.title,
+      caption: current.caption || item.section || '',
+      tag: current.tag || '',
+      date: current.date || '',
+    })
+    setEditingMetaId(item.id)
+    setMetaStatus(null)
+  }
+
+  const handleSaveMeta = (itemId: string) => {
+    updateMeta(itemId, {
+      title: metaForm.title,
+      caption: metaForm.caption,
+      tag: metaForm.tag,
+      date: metaForm.date,
+    })
+    setMetaStatus({ id: itemId, success: true, msg: 'Başlık yerel olarak kaydedildi!' })
+  }
+
+  const handlePushMetaToGitHub = async (itemId?: string) => {
+    setMetaPushing(true)
+    setMetaStatus(null)
+    try {
+      if (itemId) {
+        updateMeta(itemId, {
+          title: metaForm.title,
+          caption: metaForm.caption,
+          tag: metaForm.tag,
+          date: metaForm.date,
+        })
+      }
+      const currentMeta = {
+        ...useImageMetaStore.getState().metaMap,
+        ...(itemId ? {
+          [itemId]: {
+            title: metaForm.title,
+            caption: metaForm.caption,
+            tag: metaForm.tag,
+            date: metaForm.date,
+          }
+        } : {})
+      }
+
+      const jsonStr = JSON.stringify(currentMeta, null, 2)
+      const base64 = btoa(unescape(encodeURIComponent(jsonStr)))
+
+      const res = await uploadFileToGitHub({
+        path: 'public/data/imageMeta.json',
+        contentBase64: base64,
+        message: 'feat(content): Görsel başlık ve açıklamaları güncellendi [admin panel]',
+        token: githubToken,
+      })
+
+      const targetId = itemId || 'global'
+      if (res.success) {
+        setMetaStatus({
+          id: targetId,
+          success: true,
+          msg: 'Başlık başarıyla GitHub\'a pushlandı! Vercel 20-30 saniye içinde sitenizde canlıya alıyor.',
+        })
+      } else {
+        setMetaStatus({
+          id: targetId,
+          success: false,
+          msg: res.error || 'GitHub yükleme hatası',
+        })
+      }
+    } catch (err: any) {
+      const targetId = itemId || 'global'
+      setMetaStatus({
+        id: targetId,
+        success: false,
+        msg: err?.message || 'Bilinmeyen hata',
+      })
+    } finally {
+      setMetaPushing(false)
+    }
+  }
+
   const filteredImages = SITE_IMAGES.filter(img => {
     const pageMatch = selectedPage === 'Tümü' || img.page === selectedPage
+    const liveMeta = getMeta(img.id, { title: img.title, section: img.section })
     const queryMatch =
       !searchQuery.trim() ||
-      img.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      liveMeta.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (liveMeta.caption && liveMeta.caption.toLowerCase().includes(searchQuery.toLowerCase())) ||
       img.section.toLowerCase().includes(searchQuery.toLowerCase()) ||
       img.repoPath.toLowerCase().includes(searchQuery.toLowerCase())
     return pageMatch && queryMatch
@@ -215,7 +322,7 @@ export default function GorselYonetimi() {
               Fotoğraf &amp; Görsel Yönetimi ({SITE_IMAGES.length} Görsel)
             </h1>
             <p style={{ color: '#666', fontSize: '14px', margin: '6px 0 0' }}>
-              Sitedeki tüm fotoğraflar (manşetler, galeriler, saha fotoğrafları, ekipmanlar) aşağıda listelenmiştir. Bilgisayarınızdan yeni fotoğrafı seçtiğinizde sistem otomatik olarak WebP formatına sıkıştırır ve doğrudan GitHub'a pushlar.
+              Sitedeki tüm fotoğrafları ve başlıklarını buradan değiştirebilirsiniz. Fotoğraf seçebilir, <strong>"Başlık &amp; Yazı Düzenle"</strong> ile metinleri güncelleyip tek tıkla GitHub'a pushlayabilirsiniz.
             </p>
           </div>
 
@@ -303,7 +410,7 @@ export default function GorselYonetimi() {
             <i className="bi bi-github" /> GitHub Personal Access Token (PAT)
           </h4>
           <p style={{ fontSize: '13px', color: '#666', lineHeight: 1.6, margin: '0 0 14px' }}>
-            Yüklediğiniz fotoğrafların doğrudan <strong>kadircakir-rgb/yarasa-react</strong> deposundaki <code>main</code> dalına commit edilmesi ve Vercel'in otomatik olarak yayına alması için <strong>repo</strong> veya <strong>contents:write</strong> yetkisine sahip bir GitHub token'ı giriniz. Token tarayıcınızın <code>localStorage</code> alanında güvenle saklanır.
+            Fotoğrafların ve değiştirilen başlıkların doğrudan <strong>kadircakir-rgb/yarasa-react</strong> deposuna aktarılması için <strong>repo</strong> yetkisine sahip bir GitHub token'ı giriniz.
           </p>
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             <input
@@ -574,7 +681,7 @@ export default function GorselYonetimi() {
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            placeholder="Fotoğraf, bölüm veya dosya adı ara..."
+            placeholder="Fotoğraf, başlık veya açıklama ara..."
             style={{
               width: '100%',
               padding: '8px 12px 8px 34px',
@@ -598,6 +705,8 @@ export default function GorselYonetimi() {
         {filteredImages.map(item => {
           const st = uploadStates[item.id] || { optimizing: false, uploading: false }
           const liveUrl = `${item.currentUrl}?v=${cacheBuster}`
+          const liveMeta = getMeta(item.id, { title: item.title, section: item.section })
+          const isEditingMeta = editingMetaId === item.id
 
           return (
             <div
@@ -607,7 +716,7 @@ export default function GorselYonetimi() {
                 borderRadius: '14px',
                 overflow: 'hidden',
                 boxShadow: '0 2px 14px rgba(0,0,0,0.06)',
-                border: '1px solid #eee',
+                border: isEditingMeta ? '1.5px solid #e61b23' : '1px solid #eee',
                 display: 'flex',
                 flexDirection: 'column',
                 transition: 'transform 0.2s, box-shadow 0.2s',
@@ -635,10 +744,10 @@ export default function GorselYonetimi() {
                   )}
                 </div>
                 <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 4px', lineHeight: 1.3 }}>
-                  {item.title}
+                  {liveMeta.title}
                 </h3>
                 <p style={{ fontSize: '12px', color: '#777', margin: 0, lineHeight: 1.4 }}>
-                  {item.section}
+                  {liveMeta.caption || liveMeta.section || item.section}
                 </p>
               </div>
 
@@ -653,7 +762,7 @@ export default function GorselYonetimi() {
                 ) : (
                   <img
                     src={liveUrl}
-                    alt={item.title}
+                    alt={liveMeta.title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     onError={(e) => {
                       if (item.altPath) {
@@ -714,7 +823,6 @@ export default function GorselYonetimi() {
               {/* Alt Kontroller & Bilgi */}
               <div style={{ padding: '14px 16px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 {st.optimized ? (
-                  // Optimize edilmiş boyut istatistiği
                   <div style={{
                     background: '#f8fdf9',
                     border: '1px solid #d4edda',
@@ -842,6 +950,186 @@ export default function GorselYonetimi() {
                     </button>
                   )}
                 </div>
+
+                {/* ── Başlık & Yazı Düzenle Butonu ── */}
+                <button
+                  type="button"
+                  onClick={() => handleOpenEditMeta(item)}
+                  style={{
+                    width: '100%',
+                    marginTop: '8px',
+                    padding: '7px 12px',
+                    background: isEditingMeta ? '#fdf2f2' : '#f8f9fa',
+                    border: `1px solid ${isEditingMeta ? '#e61b23' : '#ddd'}`,
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    color: isEditingMeta ? '#e61b23' : '#444',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px',
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  <i className={`bi ${isEditingMeta ? 'bi-x-circle' : 'bi-pencil-square'}`} />
+                  <span>{isEditingMeta ? 'Başlık Düzenlemeyi Kapat' : 'Başlık & Açıklamayı Düzenle'}</span>
+                </button>
+
+                {/* ── Inline Başlık / Açıklama Düzenleme Formu ── */}
+                {isEditingMeta && (
+                  <div style={{
+                    marginTop: '10px',
+                    padding: '12px',
+                    background: '#fdf9f9',
+                    border: '1.5px solid #f2c2c2',
+                    borderRadius: '8px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                  }}>
+                    <div>
+                      <label style={{ fontSize: '11px', fontWeight: 700, color: '#444', display: 'block', marginBottom: '3px' }}>
+                        Fotoğraf Başlığı:
+                      </label>
+                      <input
+                        type="text"
+                        value={metaForm.title}
+                        onChange={e => setMetaForm({ ...metaForm, title: e.target.value })}
+                        style={{
+                          width: '100%',
+                          padding: '6px 8px',
+                          borderRadius: '6px',
+                          border: '1px solid #ccc',
+                          fontSize: '12px',
+                        }}
+                      />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '11px', fontWeight: 700, color: '#444', display: 'block', marginBottom: '3px' }}>
+                        Alt Açıklama (Caption / Detay):
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={metaForm.caption}
+                        onChange={e => setMetaForm({ ...metaForm, caption: e.target.value })}
+                        style={{
+                          width: '100%',
+                          padding: '6px 8px',
+                          borderRadius: '6px',
+                          border: '1px solid #ccc',
+                          fontSize: '12px',
+                        }}
+                      />
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                      <div>
+                        <label style={{ fontSize: '11px', fontWeight: 700, color: '#444', display: 'block', marginBottom: '3px' }}>
+                          Etiket / Kategori:
+                        </label>
+                        <input
+                          type="text"
+                          value={metaForm.tag}
+                          onChange={e => setMetaForm({ ...metaForm, tag: e.target.value })}
+                          placeholder="Örn: Yuva Kontrolü"
+                          style={{
+                            width: '100%',
+                            padding: '6px 8px',
+                            borderRadius: '6px',
+                            border: '1px solid #ccc',
+                            fontSize: '12px',
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ fontSize: '11px', fontWeight: 700, color: '#444', display: 'block', marginBottom: '3px' }}>
+                          Tarih:
+                        </label>
+                        <input
+                          type="text"
+                          value={metaForm.date}
+                          onChange={e => setMetaForm({ ...metaForm, date: e.target.value })}
+                          placeholder="Örn: Mayıs 2026"
+                          style={{
+                            width: '100%',
+                            padding: '6px 8px',
+                            borderRadius: '6px',
+                            border: '1px solid #ccc',
+                            fontSize: '12px',
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    {metaStatus?.id === item.id && (
+                      <div style={{
+                        padding: '6px 10px',
+                        borderRadius: '6px',
+                        fontSize: '11px',
+                        background: metaStatus.success ? '#d4edda' : '#f8d7da',
+                        color: metaStatus.success ? '#155724' : '#721c24',
+                        border: `1px solid ${metaStatus.success ? '#c3e6cb' : '#f5c6cb'}`
+                      }}>
+                        {metaStatus.msg}
+                      </div>
+                    )}
+
+                    <div style={{ display: 'flex', gap: '6px', marginTop: '4px' }}>
+                      <button
+                        type="button"
+                        onClick={() => handleSaveMeta(item.id)}
+                        style={{
+                          flex: 1,
+                          padding: '6px 10px',
+                          background: '#fff',
+                          border: '1px solid #28a745',
+                          color: '#28a745',
+                          borderRadius: '6px',
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <i className="bi bi-save me-1" />Kaydet (Önizle)
+                      </button>
+                      <button
+                        type="button"
+                        disabled={metaPushing || tokenStatus !== 'valid'}
+                        onClick={() => handlePushMetaToGitHub(item.id)}
+                        style={{
+                          flex: 1.3,
+                          padding: '6px 10px',
+                          background: tokenStatus === 'valid' ? '#e61b23' : '#aaa',
+                          border: 'none',
+                          color: '#fff',
+                          borderRadius: '6px',
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          cursor: tokenStatus === 'valid' && !metaPushing ? 'pointer' : 'not-allowed',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '4px'
+                        }}
+                      >
+                        {metaPushing ? (
+                          <>
+                            <i className="bi bi-arrow-repeat" style={{ animation: 'spin 1s linear infinite' }} />
+                            Gönderiliyor...
+                          </>
+                        ) : (
+                          <>
+                            <i className="bi bi-cloud-arrow-up-fill" />
+                            Kaydet &amp; Canlıya Al
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )

@@ -1,5 +1,6 @@
 import { useEffect, lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
+import { useImageMetaStore } from './store/imageMetaStore'
 import AOS from 'aos'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import Header from './components/Header'
@@ -37,10 +38,12 @@ function ScrollToTop() {
 function AppContent() {
   const { pathname } = useLocation()
   const isHome = pathname === '/'
+  const loadServerMeta = useImageMetaStore(s => s.loadServerMeta)
 
   useEffect(() => {
     initAOS()
-  }, [])
+    loadServerMeta()
+  }, [loadServerMeta])
 
   useEffect(() => {
     const timer = setTimeout(() => {

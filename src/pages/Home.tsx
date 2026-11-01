@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Swiper from 'swiper'
 import { Autoplay, Navigation, Pagination, EffectFade } from 'swiper/modules'
 import NewsletterForm from '../components/NewsletterForm'
 import ImageLightbox, { type LightboxImage } from '../components/ImageLightbox'
 import { useLangStore } from '../store/langStore'
+import { useImageMetaStore } from '../store/imageMetaStore'
 
 const slides = [
   {
@@ -94,6 +95,20 @@ export default function Home() {
   const heroSwiperRef = useRef<HTMLDivElement>(null)
   const servicesSwiperRef = useRef<HTMLDivElement>(null)
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | null>(null)
+  const getMeta = useImageMetaStore(s => s.getMeta)
+  const resolvedGalleryItems = useMemo(() => {
+    const ids = ['home-gallery-1', 'home-gallery-2', 'home-gallery-3', 'home-gallery-4', 'gonullu-gece', 'home-gallery-5']
+    return homeGalleryItems.map((g, idx) => {
+      const meta = getMeta(ids[idx], { title: g.title, caption: g.caption, tag: g.tag, date: g.date })
+      return {
+        ...g,
+        title: meta.title,
+        caption: meta.caption || g.caption,
+        tag: meta.tag || g.tag,
+        date: meta.date || g.date,
+      }
+    })
+  }, [getMeta])
   const { lang, t } = useLangStore()
   const isTr = lang === 'tr'
 
@@ -482,7 +497,7 @@ export default function Home() {
           </div>
 
           <div className="row g-4">
-            {homeGalleryItems.map((item, idx) => (
+            {resolvedGalleryItems.map((item: LightboxImage, idx: number) => (
               <div key={idx} className="col-lg-4 col-md-6">
                 <div
                   className="rounded-4 overflow-hidden position-relative hover-card"

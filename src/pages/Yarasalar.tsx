@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import PageTitle from '../components/PageTitle'
 import ImageLightbox, { type LightboxImage } from '../components/ImageLightbox'
+import { useImageMetaStore } from '../store/imageMetaStore'
 
 const card: React.CSSProperties = {
   background: '#fff',
@@ -172,6 +173,20 @@ function renderIucnBadge(status: string) {
 
 export default function Yarasalar() {
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | null>(null)
+  const getMeta = useImageMetaStore(s => s.getMeta)
+  const resolvedBatGallery = useMemo(() => {
+    const ids = ['bat-morfoloji', 'bat-gece-ucan', 'bat-magara-giris', 'bat-tarihi-yapilar', 'bat-kis-kolonisi', 'bat-habitat-panoramik']
+    return batGallery.map((b, idx) => {
+      const meta = getMeta(ids[idx], { title: b.title, caption: b.caption, tag: b.tag, date: b.date })
+      return {
+        ...b,
+        title: meta.title,
+        caption: meta.caption || b.caption,
+        tag: meta.tag || b.tag,
+        date: meta.date || b.date,
+      }
+    })
+  }, [getMeta])
   const [speciesSearch, setSpeciesSearch] = useState('')
   const [showAllSpecies, setShowAllSpecies] = useState(false)
 
@@ -873,7 +888,7 @@ export default function Yarasalar() {
           </div>
 
           <div className="row g-4">
-            {batGallery.map((item, idx) => (
+            {resolvedBatGallery.map((item, idx) => (
               <div key={idx} className="col-lg-4 col-md-6">
                 <div
                   className="rounded-4 overflow-hidden position-relative hover-card"

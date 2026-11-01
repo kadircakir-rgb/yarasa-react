@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import PageTitle from '../components/PageTitle'
 import ImageLightbox, { type LightboxImage } from '../components/ImageLightbox'
 import { useLangStore } from '../store/langStore'
+import { useImageMetaStore } from '../store/imageMetaStore'
 
 const card: React.CSSProperties = {
   background: '#fff',
@@ -160,10 +161,26 @@ export default function SahaCalismalari() {
   const [filter, setFilter] = useState<'all' | 'tunek' | 'akustik' | 'habitat'>('all')
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | null>(null)
 
+  const getMeta = useImageMetaStore(s => s.getMeta)
+
+  const resolvedPhotos = useMemo(() => {
+    return allFieldPhotos.map((p, idx) => {
+      const id = `saha-16-${String(idx + 1).padStart(2, '0')}`
+      const meta = getMeta(id, { title: p.title, caption: p.caption, tag: p.tag, date: p.date })
+      return {
+        ...p,
+        title: meta.title,
+        caption: meta.caption || p.caption,
+        tag: meta.tag || p.tag,
+        date: meta.date || p.date,
+      }
+    })
+  }, [getMeta])
+
   const filteredPhotos = useMemo(() => {
-    if (filter === 'all') return allFieldPhotos
-    return allFieldPhotos.filter(p => p.category === filter)
-  }, [filter])
+    if (filter === 'all') return resolvedPhotos
+    return resolvedPhotos.filter(p => p.category === filter)
+  }, [filter, resolvedPhotos])
 
   return (
     <main className="main">
