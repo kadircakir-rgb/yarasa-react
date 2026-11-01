@@ -34,6 +34,15 @@ export default function GorselYonetimi() {
   // Cache buster for live preview images
   const [cacheBuster, setCacheBuster] = useState<number>(Date.now())
 
+  // Custom new image upload state
+  const [showCustomUpload, setShowCustomUpload] = useState(false)
+  const [customPath, setCustomPath] = useState('public/image/')
+  const [customOptimizing, setCustomOptimizing] = useState(false)
+  const [customOptimized, setCustomOptimized] = useState<OptimizedResult | null>(null)
+  const [customUploading, setCustomUploading] = useState(false)
+  const [customResult, setCustomResult] = useState<UploadResult | null>(null)
+  const [customError, setCustomError] = useState<string | null>(null)
+
   useEffect(() => {
     const existing = getStoredGitHubToken()
     if (existing) {
@@ -143,6 +152,48 @@ export default function GorselYonetimi() {
     }
   }
 
+  const handleCustomFileSelect = async (file: File) => {
+    setCustomOptimizing(true)
+    setCustomError(null)
+    setCustomResult(null)
+    try {
+      const opt = await optimizeImageFile(file, 1920, 1920, 0.88)
+      setCustomOptimized(opt)
+      // Suggest filename based on selected file name
+      const cleanName = file.name.toLowerCase().replace(/[^a-z0-9_-]/g, '-').replace(/-+/g, '-')
+      const baseName = cleanName.substring(0, cleanName.lastIndexOf('.')) || cleanName
+      setCustomPath(`public/image/${baseName}.webp`)
+    } catch (err: any) {
+      setCustomError(err?.message || 'Görsel optimize edilemedi')
+    } finally {
+      setCustomOptimizing(false)
+    }
+  }
+
+  const handleCustomPush = async () => {
+    if (!customOptimized || !customPath.trim()) return
+    setCustomUploading(true)
+    setCustomError(null)
+    try {
+      const res = await uploadFileToGitHub({
+        path: customPath.trim(),
+        contentBase64: customOptimized.base64,
+        message: `feat(assets): Yeni görsel yüklendi (${customPath}) [admin panel]`,
+        token: githubToken,
+      })
+      if (res.success) {
+        setCustomResult(res)
+        setCacheBuster(Date.now())
+      } else {
+        setCustomError(res.error || 'GitHub yükleme hatası')
+      }
+    } catch (err: any) {
+      setCustomError(err?.message || 'Bilinmeyen hata')
+    } finally {
+      setCustomUploading(false)
+    }
+  }
+
   const filteredImages = SITE_IMAGES.filter(img => {
     const pageMatch = selectedPage === 'Tümü' || img.page === selectedPage
     const queryMatch =
@@ -154,61 +205,86 @@ export default function GorselYonetimi() {
   })
 
   return (
-    <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+    <div style={{ maxWidth: '1360px', margin: '0 auto' }}>
       {/* ── Üst Bilgi Başlığı ── */}
       <div style={{ marginBottom: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
           <div>
             <h1 style={{ fontSize: '24px', fontWeight: 800, color: '#1a1a1a', margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
               <i className="bi bi-images" style={{ color: '#e61b23' }} />
-              Fotoğraf &amp; Görsel Yönetimi
+              Fotoğraf &amp; Görsel Yönetimi ({SITE_IMAGES.length} Görsel)
             </h1>
             <p style={{ color: '#666', fontSize: '14px', margin: '6px 0 0' }}>
-              Bilgisayarınızdaki fotoğrafları seçin veya sürükleyin. Sistem otomatik optimize eder ve tek tıkla doğrudan GitHub'a pushlar; Vercel 20-30 saniyede sitenizi yayına alır.
+              Sitedeki tüm fotoğraflar (manşetler, galeriler, saha fotoğrafları, ekipmanlar) aşağıda listelenmiştir. Bilgisayarınızdan yeni fotoğrafı seçtiğinizde sistem otomatik olarak WebP formatına sıkıştırır ve doğrudan GitHub'a pushlar.
             </p>
           </div>
 
-          {/* GitHub Durum Rozeti */}
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '8px 14px',
-            borderRadius: '50px',
-            background: tokenStatus === 'valid' ? '#e6f7ec' : '#fff3cd',
-            border: `1px solid ${tokenStatus === 'valid' ? '#c3e6cb' : '#ffeeba'}`,
-            fontSize: '13px',
-            fontWeight: 600,
-            color: tokenStatus === 'valid' ? '#155724' : '#856404',
-          }}>
-            <span style={{
-              width: '10px',
-              height: '10px',
-              borderRadius: '50px',
-              background: tokenStatus === 'valid' ? '#28a745' : '#ffc107',
-              display: 'inline-block'
-            }} />
-            {tokenStatus === 'valid' ? (
-              <span>GitHub Bağlı: <strong>@{tokenUser}</strong> (main)</span>
-            ) : (
-              <span>GitHub Token Gerekli (Canlıya Alma İçin)</span>
-            )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+            {/* Özel Dosya Yükleme Aç/Kapa Butonu */}
             <button
               type="button"
-              onClick={() => setTokenEditing(!tokenEditing)}
+              onClick={() => setShowCustomUpload(!showCustomUpload)}
               style={{
-                background: 'transparent',
-                border: 'none',
-                color: '#555',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '8px 16px',
+                borderRadius: '8px',
+                background: showCustomUpload ? '#1a1a1a' : '#fff',
+                color: showCustomUpload ? '#fff' : '#1a1a1a',
+                border: '1.5px solid #1a1a1a',
+                fontSize: '13px',
+                fontWeight: 600,
                 cursor: 'pointer',
-                fontSize: '12px',
-                textDecoration: 'underline',
-                marginLeft: '4px',
-                padding: 0,
+                transition: 'all 0.2s',
               }}
             >
-              {tokenEditing ? 'Kapat' : 'Yapılandır'}
+              <i className={`bi ${showCustomUpload ? 'bi-dash-circle' : 'bi-plus-circle'}`} />
+              {showCustomUpload ? 'Özel Yükleyiciyi Kapat' : 'Yeni / Özel Fotoğraf Yükle'}
             </button>
+
+            {/* GitHub Durum Rozeti */}
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '8px 14px',
+              borderRadius: '50px',
+              background: tokenStatus === 'valid' ? '#e6f7ec' : '#fff3cd',
+              border: `1px solid ${tokenStatus === 'valid' ? '#c3e6cb' : '#ffeeba'}`,
+              fontSize: '13px',
+              fontWeight: 600,
+              color: tokenStatus === 'valid' ? '#155724' : '#856404',
+            }}>
+              <span style={{
+                width: '10px',
+                height: '10px',
+                borderRadius: '50px',
+                background: tokenStatus === 'valid' ? '#28a745' : '#ffc107',
+                display: 'inline-block'
+              }} />
+              {tokenStatus === 'valid' ? (
+                <span>GitHub Bağlı: <strong>@{tokenUser}</strong></span>
+              ) : (
+                <span>GitHub Token Gerekli</span>
+              )}
+              <button
+                type="button"
+                onClick={() => setTokenEditing(!tokenEditing)}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#555',
+                  cursor: 'pointer',
+                  fontSize: '12px',
+                  textDecoration: 'underline',
+                  marginLeft: '4px',
+                  padding: 0,
+                }}
+              >
+                {tokenEditing ? 'Kapat' : 'Yapılandır'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -227,7 +303,7 @@ export default function GorselYonetimi() {
             <i className="bi bi-github" /> GitHub Personal Access Token (PAT)
           </h4>
           <p style={{ fontSize: '13px', color: '#666', lineHeight: 1.6, margin: '0 0 14px' }}>
-            Yüklediğiniz görsellerin doğrudan <strong>kadircakir-rgb/yarasa-react</strong> deposundaki <code>main</code> dalına commit edilmesi ve Vercel'in otomatik olarak yayına alması için <strong>repo</strong> veya <strong>contents:write</strong> yetkisine sahip bir GitHub token'ı giriniz. Token tarayıcınızın <code>localStorage</code> alanında güvenle saklanır.
+            Yüklediğiniz fotoğrafların doğrudan <strong>kadircakir-rgb/yarasa-react</strong> deposundaki <code>main</code> dalına commit edilmesi ve Vercel'in otomatik olarak yayına alması için <strong>repo</strong> veya <strong>contents:write</strong> yetkisine sahip bir GitHub token'ı giriniz. Token tarayıcınızın <code>localStorage</code> alanında güvenle saklanır.
           </p>
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             <input
@@ -265,6 +341,179 @@ export default function GorselYonetimi() {
         </div>
       )}
 
+      {/* ── Özel / Yeni Fotoğraf Yükleyici ── */}
+      {showCustomUpload && (
+        <div style={{
+          background: '#fff',
+          borderRadius: '14px',
+          padding: '24px',
+          border: '2px dashed #e61b23',
+          marginBottom: '28px',
+          boxShadow: '0 4px 20px rgba(230,27,35,0.08)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: '#1a1a1a', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <i className="bi bi-cloud-arrow-up-fill" style={{ color: '#e61b23' }} />
+              Yeni / Serbest Fotoğraf Yükleme (İstediğiniz Konuma)
+            </h3>
+            <span style={{ fontSize: '12px', color: '#888' }}>
+              Arşivinizden dilediğiniz fotoğrafı seçip sitenin herhangi bir dizinine yükleyebilirsiniz.
+            </span>
+          </div>
+
+          <div className="row gy-3">
+            <div className="col-md-6">
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#333', marginBottom: '6px' }}>
+                1. Bilgisayarınızdan Fotoğraf Seçin
+              </label>
+              <label style={{
+                display: 'block',
+                border: '2px dashed #ccc',
+                borderRadius: '10px',
+                padding: '28px 16px',
+                textAlign: 'center',
+                cursor: 'pointer',
+                background: '#fafafa',
+                transition: 'background 0.2s',
+              }}>
+                <i className="bi bi-images" style={{ fontSize: '32px', color: '#e61b23', display: 'block', marginBottom: '8px' }} />
+                <span style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a', display: 'block' }}>
+                  {customOptimized ? 'Fotoğraf Seçildi (Değiştirmek için tıklayın)' : 'Fotoğrafı buraya tıklayarak seçin'}
+                </span>
+                <span style={{ fontSize: '11px', color: '#888' }}>Otomatik WebP sıkıştırma uygulanır</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  onChange={e => {
+                    const f = e.target.files?.[0]
+                    if (f) handleCustomFileSelect(f)
+                  }}
+                />
+              </label>
+
+              {customOptimizing && (
+                <div style={{ marginTop: '8px', fontSize: '12px', color: '#666' }}>
+                  <i className="bi bi-arrow-repeat me-1" style={{ animation: 'spin 1s linear infinite' }} />
+                  Görsel sıkıştırılıyor...
+                </div>
+              )}
+            </div>
+
+            <div className="col-md-6">
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#333', marginBottom: '6px' }}>
+                2. Depo Dosya Yolu (Repo Path)
+              </label>
+              <input
+                type="text"
+                value={customPath}
+                onChange={e => setCustomPath(e.target.value)}
+                placeholder="public/image/yeni-foto.webp"
+                style={{
+                  width: '100%',
+                  padding: '10px 12px',
+                  borderRadius: '8px',
+                  border: '1.5px solid #ddd',
+                  fontSize: '13px',
+                  fontFamily: 'monospace',
+                  marginBottom: '10px',
+                }}
+              />
+              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '14px' }}>
+                <span style={{ fontSize: '11px', color: '#888', alignSelf: 'center' }}>Hızlı Klasör:</span>
+                {[
+                  'public/image/saha-calismalari/',
+                  'public/image/yarasalar/',
+                  'public/image/gonullu-ol/',
+                  'public/image/hakkimizda/',
+                ].map(p => (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => setCustomPath(`${p}yeni-foto.webp`)}
+                    style={{
+                      fontSize: '10px',
+                      padding: '2px 8px',
+                      borderRadius: '4px',
+                      border: '1px solid #ddd',
+                      background: '#f5f5f5',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {p.replace('public/image/', '')}
+                  </button>
+                ))}
+              </div>
+
+              {customOptimized && (
+                <div style={{
+                  background: '#f8fdf9',
+                  border: '1px solid #d4edda',
+                  borderRadius: '8px',
+                  padding: '10px 14px',
+                  marginBottom: '14px',
+                  fontSize: '12px',
+                  color: '#155724'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                    <span>Orijinal: <strong>{formatBytes(customOptimized.originalSize)}</strong></span>
+                    <span>Optimize: <strong>{formatBytes(customOptimized.optimizedSize)}</strong></span>
+                  </div>
+                  <div style={{ fontWeight: 700, color: '#28a745' }}>
+                    ⚡ %{customOptimized.savedPercent} Tasarruf Sağlandı ({customOptimized.width}x{customOptimized.height}px WebP)
+                  </div>
+                </div>
+              )}
+
+              {customError && (
+                <div style={{ background: '#fdf2f2', border: '1px solid #f8d7da', color: '#721c24', padding: '8px 12px', borderRadius: '6px', fontSize: '12px', marginBottom: '12px' }}>
+                  {customError}
+                </div>
+              )}
+
+              {customResult?.success && (
+                <div style={{ background: '#d4edda', border: '1px solid #c3e6cb', color: '#155724', padding: '8px 12px', borderRadius: '6px', fontSize: '12px', marginBottom: '12px' }}>
+                  ✅ <strong>Başarıyla yüklendi!</strong> Vercel 20-30 saniye içinde canlıya alıyor.
+                </div>
+              )}
+
+              <button
+                type="button"
+                disabled={!customOptimized || customUploading || tokenStatus !== 'valid'}
+                onClick={handleCustomPush}
+                style={{
+                  width: '100%',
+                  padding: '11px',
+                  background: customOptimized && tokenStatus === 'valid' ? '#e61b23' : '#aaa',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  cursor: customOptimized && tokenStatus === 'valid' && !customUploading ? 'pointer' : 'not-allowed',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                }}
+              >
+                {customUploading ? (
+                  <>
+                    <i className="bi bi-arrow-repeat" style={{ animation: 'spin 1s linear infinite' }} />
+                    GitHub'a Gönderiliyor...
+                  </>
+                ) : (
+                  <>
+                    <i className="bi bi-cloud-arrow-up-fill" />
+                    Bu Görseli GitHub'a Yükle &amp; Canlıya Al
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── Filtreler & Arama ── */}
       <div style={{
         display: 'flex',
@@ -278,6 +527,10 @@ export default function GorselYonetimi() {
         <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
           {(['Tümü', 'Ana Sayfa', 'Hakkımızda', 'Yarasalar', 'Saha Çalışmaları', 'Gönüllü Ol'] as PageFilter[]).map(page => {
             const active = selectedPage === page
+            const count = page === 'Tümü'
+              ? SITE_IMAGES.length
+              : SITE_IMAGES.filter(i => i.page === page).length
+
             return (
               <button
                 key={page}
@@ -293,22 +546,35 @@ export default function GorselYonetimi() {
                   fontWeight: active ? 700 : 500,
                   cursor: 'pointer',
                   transition: 'all 0.2s',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
                 }}
               >
-                {page}
+                <span>{page}</span>
+                <span style={{
+                  background: active ? 'rgba(255,255,255,0.3)' : '#f0f0f0',
+                  color: active ? '#fff' : '#777',
+                  padding: '1px 7px',
+                  borderRadius: '10px',
+                  fontSize: '11px',
+                  fontWeight: 700,
+                }}>
+                  {count}
+                </span>
               </button>
             )
           })}
         </div>
 
         {/* Arama Kutusu */}
-        <div style={{ position: 'relative', width: '280px' }}>
+        <div style={{ position: 'relative', width: '300px' }}>
           <i className="bi bi-search" style={{ position: 'absolute', left: '12px', top: '10px', color: '#999', fontSize: '13px' }} />
           <input
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            placeholder="Görsel veya bölüm ara..."
+            placeholder="Fotoğraf, bölüm veya dosya adı ara..."
             style={{
               width: '100%',
               padding: '8px 12px 8px 34px',
@@ -390,7 +656,6 @@ export default function GorselYonetimi() {
                     alt={item.title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     onError={(e) => {
-                      // Fallback if webp not available yet
                       if (item.altPath) {
                         (e.target as HTMLImageElement).src = item.altPath
                       }
