@@ -120,6 +120,9 @@ export default function Footer() {
                   <i className="bi bi-code-slash text-danger me-1" />{t('designedBy')}
                 </span>
                 <span style={{ color: '#666' }}>• {t('allRightsReserved')}</span>
+                <Link to="/admin" style={{ color: '#444', textDecoration: 'none', marginLeft: '10px' }} title="Yönetici Girişi">
+                  <i className="bi bi-shield-lock" style={{ fontSize: '12px' }} />
+                </Link>
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { useEffect, lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import AOS from 'aos'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import Header from './components/Header'
@@ -86,6 +86,8 @@ export default function App() {
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/panel" element={<AdminGuard><AdminPanel /></AdminGuard>} />
+          <Route path="*/admin" element={<Navigate to="/admin" replace />} />
+          <Route path="*/admin/*" element={<Navigate to="/admin" replace />} />
           {/* Site rotaları */}
           <Route path="/*" element={<AppContent />} />
         </Routes>
