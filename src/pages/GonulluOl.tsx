@@ -72,7 +72,7 @@ export default function GonulluOl() {
         title="Gönüllü Ol"
         subtitle="Bilime katkı sağlayın — Yarasa gözlemcisi olun"
         crumb="Gönüllü Ol"
-        bg="/image/saha-calismalari/20260602_201650.webp"
+        bg="/image/gonullu-ol/gonullu-hero-saha.webp"
       />
 
       {/* ── GİRİŞ BÖLÜMÜ ── */}

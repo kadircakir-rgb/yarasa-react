@@ -16,61 +16,43 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
     <>
       <div className="hover-card" style={{ background: '#fff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
 
-        {/* Fotoğraf galerisi */}
-        {images.length === 1 ? (
-          <div style={{ position: 'relative', overflow: 'hidden', height: featured ? '360px' : '220px' }}>
-            <img src={images[0]} alt={post.title}
-              loading="lazy"
-              decoding="async"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.4s ease', cursor: 'pointer' }}
+        {/* Fotoğraf alanı - Tüm kartlarda eşit yükseklikte ve net görünüm */}
+        <div style={{ position: 'relative', overflow: 'hidden', height: featured ? '300px' : '220px' }}>
+          <img
+            src={images[0]}
+            alt={post.title}
+            loading="lazy"
+            decoding="async"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.4s ease', cursor: 'pointer' }}
+            onClick={() => setLightbox(images[0])}
+            onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.04)' }}
+            onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)' }}
+            onError={e => { (e.target as HTMLImageElement).src = '/image/saha1.png' }}
+          />
+          <span style={{ position: 'absolute', top: '12px', left: '12px', background: '#e61b23', color: '#fff', padding: '4px 12px', borderRadius: '50px', fontSize: '12px', fontWeight: 600, boxShadow: '0 2px 6px rgba(0,0,0,0.3)' }}>
+            {post.category}
+          </span>
+          {images.length > 1 && (
+            <span
+              style={{
+                position: 'absolute',
+                top: '12px',
+                right: '12px',
+                background: 'rgba(0,0,0,0.7)',
+                color: '#fff',
+                padding: '4px 10px',
+                borderRadius: '50px',
+                fontSize: '11px',
+                fontWeight: 600,
+                backdropFilter: 'blur(4px)',
+                cursor: 'pointer',
+              }}
               onClick={() => setLightbox(images[0])}
-              onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.04)' }}
-              onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)' }}
-              onError={e => { (e.target as HTMLImageElement).src = '/image/saha1.png' }} />
-            <span style={{ position: 'absolute', top: '12px', left: '12px', background: '#e61b23', color: '#fff', padding: '4px 12px', borderRadius: '50px', fontSize: '12px', fontWeight: 600 }}>
-              {post.category}
+            >
+              <i className="bi bi-images me-1" />+{images.length} Görsel
             </span>
-          </div>
-        ) : (
-          <div>
-            {/* Ana fotoğraf */}
-            <div style={{ position: 'relative', overflow: 'hidden', height: featured ? '320px' : '200px' }}>
-              <img src={images[0]} alt={post.title}
-                loading="lazy"
-                decoding="async"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', cursor: 'pointer' }}
-                onClick={() => setLightbox(images[0])}
-                onError={e => { (e.target as HTMLImageElement).src = '/image/saha1.png' }} />
-              <span style={{ position: 'absolute', top: '12px', left: '12px', background: '#e61b23', color: '#fff', padding: '4px 12px', borderRadius: '50px', fontSize: '12px', fontWeight: 600 }}>
-                {post.category}
-              </span>
-              <span style={{ position: 'absolute', bottom: '12px', right: '12px', background: 'rgba(0,0,0,0.6)', color: '#fff', padding: '4px 10px', borderRadius: '50px', fontSize: '11px' }}>
-                <i className="bi bi-images me-1" />{images.length} fotoğraf
-              </span>
-            </div>
-            {/* Küçük fotoğraflar */}
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(images.length - 1, 4)}, 1fr)`, gap: '2px' }}>
-              {images.slice(1, 5).map((img, i) => (
-                <div key={i} style={{ position: 'relative', overflow: 'hidden', height: '80px', cursor: 'pointer' }}
-                  onClick={() => setLightbox(img)}>
-                  <img src={img} alt=""
-                    loading="lazy"
-                    decoding="async"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.3s' }}
-                    onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = 'scale(1.08)' }}
-                    onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = 'scale(1)' }}
-                    onError={e => { (e.target as HTMLImageElement).src = '/image/saha1.png' }} />
-                  {/* +N overlay */}
-                  {i === 3 && images.length > 5 && (
-                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: '18px' }}>
-                      +{images.length - 5}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* İçerik */}
         <div style={{ padding: featured ? '28px 32px' : '20px 24px' }}>

@@ -4,7 +4,9 @@ import { useAdminStore, type BlogPost } from '../../store/adminStore'
 import { apiUrl } from '../../lib/api'
 import Modal from '../../components/Modal'
 
-type Tab = 'dashboard' | 'posts' | 'new' | 'edit' | 'uyeler' | 'gonulluler' | 'gozlemler' | 'mesajlar' | 'yedek' | 'yayinlar'
+import GorselYonetimi from './GorselYonetimi'
+
+type Tab = 'dashboard' | 'posts' | 'new' | 'edit' | 'uyeler' | 'gonulluler' | 'gozlemler' | 'mesajlar' | 'yedek' | 'yayinlar' | 'gorseller'
 
 /* ── Export Utilities ────────────────────────────────── */
 const exportCSV = (filename: string, headers: string[], rows: (string | number)[][]) => {
@@ -223,6 +225,7 @@ export default function AdminPanel() {
     mesajlar: 'Gelen Mesajlar',
     yedek: 'Veri Yedekleme & Arşiv',
     yayinlar: 'Bilimsel Yayınlar & Çıktılar',
+    gorseller: 'Fotoğraf & Görsel Yönetimi',
   }
 
   /* ═══════════════════════════════════════════════════════ */
@@ -295,6 +298,7 @@ export default function AdminPanel() {
           {sidebarItem('gozlemler', 'bi-binoculars', `Gözlem Bildirimleri (${gozlemList.length})`)}
           {sidebarItem('mesajlar', 'bi-envelope', `Gelen Mesajlar (${mesajList.length})`)}
           {sidebarItem('yayinlar', 'bi-journal-text', `Yayınlar & Çıktılar (${yayinlarList.length})`)}
+          {sidebarItem('gorseller', 'bi-images', 'Fotoğraf Yönetimi')}
           <div style={{ borderTop: '1px solid #333', margin: '8px 0' }} />
           {sidebarItem('yedek', 'bi-database-down', 'Veri Yedekleme & Arşiv')}
         </nav>
@@ -1258,6 +1262,8 @@ export default function AdminPanel() {
         )}
 
         {/* ── VERİ YEDEKLEME & ARŞİV ── */}
+        {tab === 'gorseller' && <GorselYonetimi />}
+
         {tab === 'yedek' && (
           <>
             <div style={{ marginBottom: '24px' }}>
