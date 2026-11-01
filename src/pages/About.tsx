@@ -63,12 +63,59 @@ export default function About() {
 
   return (
     <main className="main">
-      <PageTitle
-        title={isTr ? "Hakkımızda" : "About Us"}
-        subtitle={isTr ? "Yarasa Araştırmaları Derneği — Bilimsel araştırma, koruma ve toplumsal farkındalık" : "Bat Research Association — Scientific research, conservation, and awareness"}
-        crumb={isTr ? "Hakkımızda" : "About Us"}
-        bg="/image/saha-calismalari/20260602_201650.webp"
-      />
+      {/* ── SAYFA BAŞLIĞI & LOGO ALANI ── */}
+      <div
+        className="page-title dark-background position-relative"
+        data-aos="fade"
+        style={{
+          background: 'linear-gradient(135deg, #0e1014 0%, #1a1e26 100%)',
+          padding: '65px 0',
+          borderBottom: '3px solid #e61b23',
+        }}
+      >
+        <div className="container position-relative">
+          <div className="row align-items-center justify-content-between gy-4">
+            <div className="col-lg-8 col-md-7 text-start">
+              <span className="badge bg-danger px-3 py-1 mb-2 text-uppercase fw-semibold" style={{ letterSpacing: '1px', fontSize: '11px' }}>
+                {isTr ? 'Kurumsal Kimlik' : 'Institutional Identity'}
+              </span>
+              <h1 style={{ fontSize: '2.8rem', fontWeight: 800, color: '#ffffff', margin: '4px 0 10px', letterSpacing: '-0.5px' }}>
+                {isTr ? 'Hakkımızda' : 'About Us'}
+              </h1>
+              <p style={{ color: '#d0d0d0', fontSize: '16px', maxWidth: '620px', margin: 0, lineHeight: 1.6 }}>
+                {isTr
+                  ? 'Yarasa Araştırmaları Derneği — Bilimsel araştırma, koruma ve toplumsal farkındalık'
+                  : 'Bat Research Association — Scientific research, conservation, and awareness'}
+              </p>
+            </div>
+            <div className="col-lg-4 col-md-5 text-md-end text-center">
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  padding: '14px 22px',
+                  borderRadius: '16px',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                  border: '2px solid rgba(230, 27, 35, 0.4)',
+                }}
+              >
+                <img
+                  src="/image/logo.png"
+                  alt="Yarasa Araştırmaları Derneği Logosu"
+                  style={{
+                    maxHeight: '105px',
+                    width: 'auto',
+                    objectFit: 'contain',
+                    display: 'block',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* ── TANITIM ── */}
       <section className="about-3 section">
@@ -78,17 +125,17 @@ export default function About() {
               <div
                 className="position-relative rounded-4 overflow-hidden shadow-lg hover-card"
                 onClick={() => setLightboxImage({
-                  src: '/image/hakkimizda/dernek-etkinlik-toplanti.webp',
-                  title: isTr ? 'Yarasa Araştırmaları Derneği Araştırma ve Gözlem Ekibi' : 'Bat Research Association Study Team',
-                  caption: isTr ? 'Dernek yönetim kurulu, akademisyenler ve öğrenci gözlemcilerimizin katıldığı ortak bilgilendirme ve saha toplantısı.' : 'Joint orientation meeting of our board, researchers and student observers.',
-                  tag: 'Kurumsal Ekip',
-                  date: 'Bahar 2026'
+                  src: '/image/sahaekibi.jpg',
+                  title: isTr ? 'Yarasa Araştırmaları Derneği Saha Ekibi' : 'Bat Research Association Field Team',
+                  caption: isTr ? 'Kırşehir kentsel ve doğal alanlarında aktif gözlem ve araştırma yürüten saha ekibimiz.' : 'Our field team conducting active bat surveys and research.',
+                  tag: 'Saha Ekibi',
+                  date: '2026'
                 })}
                 style={{ cursor: 'pointer' }}
               >
                 <img
-                  src="/image/hakkimizda/dernek-etkinlik-toplanti.webp"
-                  alt="Yarasa Araştırmaları Derneği Ekibi"
+                  src="/image/sahaekibi.webp"
+                  alt="Yarasa Araştırmaları Derneği Saha Ekibi"
                   loading="lazy"
                   decoding="async"
                   className="img-fluid w-100 rounded-4"
@@ -105,7 +152,7 @@ export default function About() {
                     color: '#fff',
                   }}
                 >
-                  <span className="badge bg-danger mb-1 me-2">{isTr ? 'Araştırma Ekibimiz' : 'Research Team'}</span>
+                  <span className="badge bg-danger mb-1 me-2">{isTr ? 'Saha Ekibi' : 'Field Team'}</span>
                   <span className="small text-white-50">{isTr ? 'Büyütmek için tıklayın' : 'Click to enlarge'} <i className="bi bi-zoom-in ms-1" /></span>
                 </div>
               </div>

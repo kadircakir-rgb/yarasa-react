@@ -298,7 +298,7 @@ export default function SahaCalismalari() {
                 {/* Tünek fotoğrafları */}
                 <div className="row g-2 mb-3">
                   {[
-                    { src: '/image/saha-calismalari/20260421_164620.webp', title: 'Tarihi Yapı Çatlağı', item: allFieldPhotos[1] },
+                    { src: '/image/4.webp', title: 'Tarihi Yapı Tünekleri', item: { src: '/image/4.jpg', title: 'Tarihi Yapılarda Tünek ve Koloni Kontrolleri', tag: 'Tünek Kontrolü', date: '2026', caption: 'Tarihi yapılarda tünek ve koloni kontrolleri.' } },
                     { src: '/image/saha-calismalari/20260513_133239.webp', title: 'Köprü Derz Yuvası', item: allFieldPhotos[5] },
                     { src: '/image/saha-calismalari/20260513_200047.webp', title: 'Akşam Yuva Çıkışı', item: allFieldPhotos[8] },
                   ].map((p, i) => (

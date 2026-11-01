@@ -14,7 +14,7 @@ const slides = [
     extra: true,
   },
   {
-    img: '/image/ana-sayfa/hero-3.webp',
+    img: '/image/2.webp',
     title: 'Doğal Tünek Alanları ve Yuva Kontrolü',
     desc: 'Mağaralar, kaya çatlakları, eski yapılar ve nehir koridorunda sistematik yuva kontrolleri ve koruma haritalandırması.',
   },
@@ -61,7 +61,7 @@ const homeGalleryItems = [
     caption: 'Uzman araştırmacımız tarafından eldivenle, non-invasif protokollerle gerçekleştirilen kanat ve kulak incelemesi.',
   },
   {
-    src: '/image/yarasalar/magara-tunek-girisi.webp',
+    src: '/image/1.webp',
     title: 'Doğal Mağara ve Kaya Tünekleri',
     tag: 'Tünek Araştırması',
     date: 'Mayıs 2026',
@@ -82,7 +82,7 @@ const homeGalleryItems = [
     caption: 'Üniversite öğrencileri ve doğa gönüllüleri ile sahada ekipman ve tür tanıma eğitimi.',
   },
   {
-    src: '/image/ana-sayfa/hero-3.webp',
+    src: '/image/2.webp',
     title: 'Mağara Koloni Tespiti',
     tag: 'Koloni Tespiti',
     date: 'Temmuz 2026',
