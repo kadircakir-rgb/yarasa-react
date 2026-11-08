@@ -1,1 +1,14 @@
-{}
+{
+  "home-hero-1": {
+    "title": "Ana Sayfa Hero Slider 1 (Uçuş Gözlemi)",
+    "caption": "Üst Manşet Slider (1. Slayt)",
+    "tag": "",
+    "date": ""
+  },
+  "saha-batexplorer": {
+    "title": "BatExplorer Yarasa Ses Analiz Yazılımı",
+    "caption": "Ekipman ve Altyapı (2. Cihaz)",
+    "tag": "",
+    "date": ""
+  }
+}
