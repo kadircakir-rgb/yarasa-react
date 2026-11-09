@@ -1,16 +1,4 @@
 {
-  "home-hero-1": {
-    "title": "Ana Sayfa Hero Slider 1 (Uçuş Gözlemi)",
-    "caption": "Üst Manşet Slider (1. Slayt)",
-    "tag": "",
-    "date": ""
-  },
-  "saha-batexplorer": {
-    "title": "BatExplorer Yarasa Ses Analiz Yazılımı",
-    "caption": "Ekipman ve Altyapı (2. Cihaz)",
-    "tag": "",
-    "date": ""
-  },
   "home-hero-2": {
     "title": "Ana Sayfa Hero Slider 2 (Tünek Kontrolü)",
     "caption": "Üst Manşet Slider (2. Slayt)",
@@ -18,7 +6,7 @@
     "date": ""
   },
   "home-hero-4": {
-    "title": "Ana Sayfa Hero Slider 4 (Mağara Kontrolleri)",
+    "title": "Ana Sayfa Hero Slider 4 (Mağara Tünek Kontrol)",
     "caption": "Üst Manşet Slider (4. Slayt)",
     "tag": "",
     "date": ""
